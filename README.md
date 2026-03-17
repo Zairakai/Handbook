@@ -27,6 +27,30 @@ Rules and processes — see **[Policies][policies]** for the overview.
 
 ---
 
+## 📦 Packages
+
+Centralized dev toolchain packages — see **[Packages][packages-overview]** for the overview.
+
+| Package | Type | Description |
+| :--- | :--- | :--- |
+| **[zairakai/laravel-dev-tools][laravel-dev-tools]** | Composer | PHP/Laravel: PHPStan, Pint, Rector, PHPInsights, BATS, Makefile, git hooks, GitLab CI |
+| **[@zairakai/js-dev-tools][js-dev-tools]** | npm | JS/TS: ESLint, Prettier, Stylelint, Vitest, Knip, TypeScript, Makefile, git hooks |
+
+---
+
+## 🗂️ Templates
+
+Production-ready boilerplates — see **[Templates][templates]** for the overview.
+
+| Template | Stack | Description |
+| :--- | :--- | :--- |
+| **[Laravel 11][laravel-11-template]** | Laravel 11 + Vue 3 + TypeScript | Full-stack boilerplate — API, Blade, frontend, auth, i18n, seeders, Vitest, BATS. |
+| **[Laravel 12][laravel-12-template]** | Laravel 12 + Vue 3 + TypeScript | Same as Laravel 11 boilerplate, targeting `laravel/framework: ^12.0`. |
+| **[npm-package][npm-package-template]** | TypeScript — ESM + CJS | Boilerplate for `@zairakai/*` NPM packages. |
+| **[php-package][php-package-template]** | PHP 8.3 — Laravel 11\|12 | Boilerplate for `zairakai/*` Composer packages. |
+
+---
+
 ## 🧑‍💻 Coding Standards
 
 Full standards by language and tool — see **[Coding Standards][standards]** for the overview.
@@ -74,6 +98,14 @@ Follow the rules defined here for every Merge Request. Any deviation is flagged 
 
 **Unified and Centralized by [Zairakai][zairakai]**
 
+[packages-overview]: ./packages/README.md
+[laravel-dev-tools]: ./packages/laravel-dev-tools/README.md
+[js-dev-tools]: ./packages/js-dev-tools/README.md
+[templates]: ./templates/README.md
+[laravel-11-template]: ./templates/laravel-11/README.md
+[laravel-12-template]: ./templates/laravel-12/README.md
+[npm-package-template]: ./templates/npm-package/README.md
+[php-package-template]: ./templates/php-package/README.md
 [contributing]: ./CONTRIBUTING.md
 [security]: ./SECURITY.md
 [code-of-conduct]: ./CODE_OF_CONDUCT.md

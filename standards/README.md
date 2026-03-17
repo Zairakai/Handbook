@@ -39,7 +39,7 @@ Every project uses the **Unified Make System** provided by the relevant `dev-too
 | Ecosystem | Package | Quality Command |
 | :--- | :--- | :--- |
 | PHP / Laravel | `zairakai/laravel-dev-tools` | `make quality` |
-| JavaScript / Vue | `@zairakai/dev-tools` | `make quality` |
+| JavaScript / Vue | `@zairakai/js-dev-tools` | `make quality` |
 
 The CI pipeline enforces all standards automatically — no merge without a green quality gate.
 

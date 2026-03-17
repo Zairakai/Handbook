@@ -93,7 +93,7 @@ Apply regularly — at least once per sprint. These are low-risk and keep the pr
 
 ### `dev-tools` packages
 
-Both `zairakai/laravel-dev-tools` and `@zairakai/dev-tools` auto-update their distributed configs (`.gitlab-ci.yml` ref, stubs) on `composer update` / `npm update`. No manual sync needed.
+Both `zairakai/laravel-dev-tools` and `@zairakai/js-dev-tools` auto-update their distributed configs (`.gitlab-ci.yml` ref, stubs) on `composer update` / `npm update`. No manual sync needed.
 
 ---
 
@@ -104,7 +104,7 @@ Both `zairakai/laravel-dev-tools` and `@zairakai/dev-tools` auto-update their di
 make outdated        # List outdated Composer dependencies
 make security-audit  # Run composer audit
 
-# JS (from @zairakai/dev-tools)
+# JS (from @zairakai/js-dev-tools)
 make outdated        # List outdated npm/yarn dependencies
 ```
 

@@ -6,7 +6,7 @@
 
 ## Overview
 
-JavaScript and Vue.js projects use `@zairakai/dev-tools` for unified quality enforcement. All tools run via `make quality`.
+JavaScript and Vue.js projects use `@zairakai/js-dev-tools` for unified quality enforcement. All tools run via `make quality`.
 
 ---
 
