@@ -14,7 +14,8 @@ Default settings applied to all projects. Some settings are intentionally disabl
 | Users can request access | ❌ | — |
 | Forks | ❌ | — |
 
-> Forks are disabled. The workflow is: clone + branch + MR. Forks fragment history and are unnecessary with controlled team access.
+> Forks are disabled.  
+> The workflow is: clone + branch + MR. Forks fragment history and are unnecessary with controlled team access.
 
 ---
 
@@ -75,7 +76,7 @@ Default settings applied to all projects. Some settings are intentionally disabl
 
 ### Branch name template
 
-```
+```bash
 %{id}-%{title}
 ```
 
@@ -113,7 +114,7 @@ Branches created from issues follow `{issue-id}-{issue-title}`.
 
 **Merge commit:**
 
-```
+```bash
 Merge branch '%{source_branch}' into '%{target_branch}'
 
 %{title}
@@ -126,7 +127,7 @@ MR %{local_reference}
 
 **Squash commit:**
 
-```
+```bash
 %{title}
 
 %{issues}
@@ -134,7 +135,7 @@ MR %{local_reference}
 
 **Applied suggestions:**
 
-```
+```bash
 review: apply %{suggestions_count} suggestion(s) to %{files_count} file(s)
 
 %{co_authored_by}
