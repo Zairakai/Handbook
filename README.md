@@ -15,6 +15,17 @@ This repository defines the unified rules, workflows, and policies applied acros
 
 ---
 
+## 🦊 GitLab Configuration
+
+Group and project settings — see **[GitLab Configuration][gitlab]** for the overview.
+
+| Page | Description |
+| :--- | :--- |
+| **[Group Settings][gitlab-group]** | Permissions, 2FA, branch protection defaults, package registry |
+| **[Project Settings][gitlab-project]** | Visibility, branch rules, merge method, CI/CD, commit templates |
+
+---
+
 ## 📐 Policies
 
 Rules and processes — see **[Policies][policies]** for the overview.
@@ -98,6 +109,9 @@ Follow the rules defined here for every Merge Request. Any deviation is flagged 
 
 **Unified and Centralized by [Zairakai][zairakai]**
 
+[gitlab]: ./gitlab/README.md
+[gitlab-group]: ./gitlab/group-settings.md
+[gitlab-project]: ./gitlab/project-settings.md
 [packages-overview]: ./packages/README.md
 [laravel-dev-tools]: ./packages/laravel-dev-tools/README.md
 [js-dev-tools]: ./packages/js-dev-tools/README.md
