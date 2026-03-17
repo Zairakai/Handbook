@@ -2,76 +2,119 @@
 
 > **[Handbook][handbook]** › **[GitLab Configuration][gitlab]** › Group Settings
 
-Baseline settings applied to the root Zairakai group. Subgroups inherit these unless explicitly overridden.
+Baseline settings applied to the root Zairakai group. Subgroups inherit unless explicitly overridden.
 
 ---
 
-## Permissions
+## General settings
 
-| Setting | Value | Reason |
-| :--- | :--- | :--- |
-| Projects can be shared with other groups | ❌ | Keeps projects contained within the organization |
-| Group mentions | ✅ Enabled | Members notified on group mention |
-| Minimum role to create projects | **Maintainers** | Prevents ad-hoc project proliferation |
-| Roles allowed to create subgroups | **Owners only** | Organizational structure is intentional |
-| Users can request access | ❌ | Closed group — access is granted, not requested |
+### Permissions and group features
+
+#### Permissions
+
+- [ ] Projects in this group cannot be shared with other groups
+- [ ] Group mentions are disabled
+
+#### Email notifications
+
+- [x] Enable email notifications
+  - [x] Include diff previews
+
+#### Expiry notification emails (locked)
+
+- [x] All direct and inherited members of the group or project
+- [ ] Only direct members of the group or project
+
+#### Large File Storage
+
+- [x] Projects in this group can use Git LFS
+  Possible to override in each project.
+
+#### Minimum role required to create projects
+
+- [ ] No One
+- [ ] Administrator
+- [ ] Owner
+- [x] Maintainers
+- [ ] Developers
+
+#### Roles allowed to create subgroups
+
+- [x] Owners
+- [ ] Maintainers
+
+#### Two-factor authentication
+
+- [x] All users in this group must set up two-factor authentication
+
+#### Delay 2FA enforcement (hours)
+
+`48`
+
+#### Membership
+
+- [ ] Users can request access
+- [ ] Users cannot be added to projects in this group
+
+#### Customer relations
+
+- [x] Customer relations is enabled
 
 ---
 
-## Two-Factor Authentication
+## Repository settings
 
-| Setting | Value |
-| :--- | :--- |
-| 2FA required | ✅ All members |
-| Grace period | 48 hours |
+### Default branch
 
----
+#### Initial default branch name
 
-## Email Notifications
+`main`
 
-| Setting | Value |
-| :--- | :--- |
-| Email notifications | ✅ Enabled (group + subgroups + projects) |
-| Include diff previews | ✅ |
-| Token expiry notifications | All direct and inherited members |
+#### Initial default branch protection
 
----
-
-## Repository
-
-| Setting | Value |
-| :--- | :--- |
-| Default branch name | `main` |
-| Branch protection | ✅ Protected on creation |
-| Allowed to push to `main` | **Maintainers** |
-| Allowed to merge to `main` | **Maintainers** |
-| Force push | ❌ |
-| Code owners approval | ❌ |
-| Git LFS | ✅ Enabled (overridable per project) |
+- [x] Protected
+  - Allowed to push
+    - [ ] Developers + Maintainers
+    - [x] Maintainers
+    - [ ] No one
+  - Allowed to merge
+    - [ ] Developers + Maintainers
+    - [x] Maintainers
+    - [ ] No one
+  - [ ] Allowed to force push
+  - [ ] Require approval from code owners
+  - [ ] Allow developers to push to the initial commit
 
 ---
 
-## Package Registry
+## Packages and registries settings
 
 ### Duplicate packages
 
-All disabled — semver immutability: a published version is never overwritten.
+Semver immutability — a published version is never overwritten. To update, publish a new version.
 
-| Registry | Allow duplicates |
-| :--- | :--- |
-| Maven | ❌ |
-| Generic | ❌ |
-| NuGet | ❌ |
-| Terraform module | ❌ |
+- Maven
+  - [ ] Allow duplicates
+- Generic
+  - [ ] Allow duplicates
+- NuGet
+  - [ ] Allow duplicates
+- Terraform module
+  - [ ] Allow duplicates
 
 ### Package forwarding
 
-All disabled — supply chain security. If a package is not in the GitLab registry, the build fails explicitly. No silent fallback to public registries.
+Disabled — supply chain security. If a package is not in the GitLab registry, the build must fail explicitly. No silent fallback to public registries (dependency confusion risk).
 
-| Registry | Forward requests |
-| :--- | :--- |
-| npm | ❌ |
-| PyPI | ❌ |
+#### npm
+
+- [ ] Forward npm package requests
+- [ ] Enforce npm setting for all subgroups
+
+#### PyPI
+
+- [ ] Forward PyPI package requests
+- [ ] Enforce PyPI setting for all subgroups
 
 ---
 

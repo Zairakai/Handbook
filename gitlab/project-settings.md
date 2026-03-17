@@ -2,79 +2,109 @@
 
 > **[Handbook][handbook]** › **[GitLab Configuration][gitlab]** › Project Settings
 
-Default settings applied to all projects. Some settings are intentionally disabled by default and must be enabled per project as needed.
+Default settings applied to all projects. Settings marked **override** must be adjusted per project type.
 
 ---
 
-## Visibility
+## General Settings
 
-| Setting | Default | Override |
-| :--- | :--- | :--- |
-| Project visibility | **Public** | Applications → Private |
-| Users can request access | ❌ | — |
-| Forks | ❌ | — |
+### Visibility, project features, permissions
 
-> Forks are disabled.  
-> The workflow is: clone + branch + MR. Forks fragment history and are unnecessary with controlled team access.
+#### Project visibility
+
+- [x] Public
+- [ ] Private
+
+> **Override:** Applications (cardex, manabot, skillbridge) → Private.
+
+#### Additional options
+
+- [ ] Users can request access
+
+#### Features
+
+- [x] Work items
+  - [x] Everyone With Access
+  - [ ] Only Project members
+- [x] Repository
+  - [x] Everyone With Access
+  - [ ] Only Project members
+  - [x] Merge requests
+    - [x] Everyone With Access
+    - [ ] Only Project members
+  - [ ] Forks
+    Users can copy the repository to a new project.
+
+    > Forks are disabled. Workflow: clone + branch + MR.
+    > Forks fragment history and are unnecessary with controlled team access.
+
+  - [ ] Git Large File Storage (LFS)
+    Enable per project as needed.
+- [ ] Container registry
+  Enable on Docker image repos only.
+- [x] CI/CD
+  - [x] Everyone With Access
+  - [ ] Only Project members
+- [x] Analytics
+  - [x] Everyone With Access
+  - [ ] Only Project members
+- [x] Security and compliance
+  - [ ] Everyone With Access
+  - [x] Only Project members
+- [ ] Wiki
+  Use the handbook instead.
+- [ ] Snippets
+- [ ] Package registry
+  Enable on npm/Composer package repos only.
+- [ ] Pages
+- [ ] Monitor
+- [ ] Environments
+- [ ] Feature flags
+- [ ] Infrastructure
+- [x] Releases
+  - [x] Everyone With Access
+  - [ ] Only Project members
+
+#### Email notifications
+
+- [ ] Enable email notifications
+  Inherited from group settings.
+- [x] Show default emoji reactions
+- [x] Warn about Potentially Unwanted Characters
+  Highlights hidden unicode characters (bidi, homoglyphs) that can be used in exploits.
+- [ ] Add additional webhook triggers for project access token expiration
+- [ ] CI/CD Catalog project
 
 ---
 
-## Features
+## Service Desk
 
-| Feature | Enabled | Access |
-| :--- | :--- | :--- |
-| Issues | ✅ | Everyone With Access |
-| Repository | ✅ | Everyone With Access |
-| Merge requests | ✅ | Everyone With Access |
-| CI/CD | ✅ | Everyone With Access |
-| Analytics | ✅ | Everyone With Access |
-| Releases | ✅ | Everyone With Access |
-| Security & compliance | ✅ | **Project members only** |
-| Package registry | ❌ | Enable on package repos |
-| Container registry | ❌ | Enable on Docker repos |
-| Wiki | ❌ | Use handbook instead |
-| Snippets | ❌ | — |
-| LFS | ❌ | Enable as needed |
-| Pages | ❌ | Enable as needed |
-| Monitor / Environments / Feature flags | ❌ | Enable as needed |
+- [x] Activate Service Desk
+- [x] Ticket visibility (restricted)
+  New tickets are confidential by default.
+
+### External participants
+
+- [ ] Reopen issues when an external participant comments
+- [ ] Add external participants from the Cc header
 
 ---
 
-## General
+## Repository settings
 
-| Setting | Value |
-| :--- | :--- |
-| Warn about Potentially Unwanted Characters | ✅ |
-| Sign web-based commits | ❌ |
-| Email notifications (project level) | ❌ (inherited from group) |
-| Show default emoji reactions | ✅ |
+### General
 
----
+- [ ] Sign web-based commits
 
-## Branch Rules
+### Branch defaults
 
-### `main` (default, protected)
+#### Default branch
 
-| Rule | Value |
-| :--- | :--- |
-| Allowed to merge | **Maintainers** |
-| Allowed to push directly | **No one** — MR required |
-| Force push | ❌ |
+`main`
 
-### All branches
+- [x] Auto-close referenced issues on default branch
 
-| Rule | Value |
-| :--- | :--- |
-| Squash commits | Allow (unselected by default) |
-
-### Protected tags
-
-| Pattern | Allowed to create |
-| :--- | :--- |
-| `*` (all tags) | **No one** |
-| `v*` (version tags) | **Maintainers** |
-
-### Branch name template
+#### Branch name template
 
 ```bash
 %{id}-%{title}
@@ -82,37 +112,88 @@ Default settings applied to all projects. Some settings are intentionally disabl
 
 Branches created from issues follow `{issue-id}-{issue-title}`.
 
+### Branch rules
+
+#### All branches
+
+Squash commits: Allow
+
+#### main (default protected)
+
+Allowed to merge: Maintainers
+Allowed to push and merge: No one
+
+##### Branch rule details
+
+**Protect branch:**
+
+Allowed to merge:
+
+- [x] Maintainers
+- [ ] Developers and Maintainers
+- [ ] No one
+
+Allowed to push and merge:
+Changes require a merge request. The following users can push and merge directly.
+
+- [ ] Maintainers
+- [ ] Developers and Maintainers
+- [x] No one
+
+- [ ] Allow force push
+
+### Protected tags
+
+| Tag | Allowed to create |
+| --- | ----------------- |
+| `*` | No one |
+| `v*` | Maintainers |
+
 ---
 
-## Merge Requests
+## Merge requests
 
 ### Merge method
 
-**Merge commit with semi-linear history** — enforces rebase before merge, preserves a merge commit for traceability. Developers who don't rebase are prompted to do so.
+- [ ] Merge commit
+- [x] Merge commit with semi-linear history
+  Merging is only allowed when the source branch is up-to-date with its target.
+  When semi-linear merge is not possible, the user is given the option to rebase.
+- [ ] Fast-forward merge
+
+> Enforces rebase before merge. Developers who don't rebase are prompted to do so, without making it their sole responsibility.
 
 ### Merge options
 
-| Setting | Value |
-| :--- | :--- |
-| Auto-resolve outdated diff threads | ❌ |
-| Show MR link when pushing from CLI | ✅ |
-| Delete source branch by default | ✅ |
+- [ ] Automatically resolve merge request diff threads when they become outdated
+- [x] Show link to create or view a merge request when pushing from the command line
+- [x] Enable "Delete source branch" option by default
 
-### Squash
+### Squash commits when merging
 
-**Allow** — visible, unselected by default. Developers squash manually via `git rebase -i` before pushing. The option exists as a fallback.
+- [ ] Do not allow
+- [x] Allow
+  Checkbox is visible and unselected by default.
+- [ ] Encourage
+- [ ] Require
+
+> Developers squash manually via `git rebase -i` before pushing. The option exists as a fallback.
 
 ### Merge checks
 
-| Check | Value |
-| :--- | :--- |
-| Pipelines must succeed | ✅ |
-| Skipped pipelines count as success | ❌ |
-| All threads must be resolved | ✅ |
+- [x] Pipelines must succeed
+  - [ ] Skipped pipelines are considered successful
+- [x] All threads must be resolved
 
-### Commit message templates
+### Merge suggestions
 
-**Merge commit:**
+```bash
+review: apply %{suggestions_count} suggestion(s) to %{files_count} file(s)
+
+%{co_authored_by}
+```
+
+### Merge commit message template
 
 ```bash
 Merge branch '%{source_branch}' into '%{target_branch}'
@@ -125,7 +206,7 @@ MR %{local_reference}
 %{merged_by}
 ```
 
-**Squash commit:**
+### Squash commit message template
 
 ```bash
 %{title}
@@ -133,53 +214,58 @@ MR %{local_reference}
 %{issues}
 ```
 
-**Applied suggestions:**
-
-```bash
-review: apply %{suggestions_count} suggestion(s) to %{files_count} file(s)
-
-%{co_authored_by}
-```
-
-> `review:` prefix identifies suggestion commits in `git log`. `%{approved_by}`, `%{merged_by}`, `%{issues}`, `%{co_authored_by}` are omitted automatically when empty.
+> `%{approved_by}`, `%{merged_by}`, `%{issues}`, `%{co_authored_by}` are omitted automatically when empty.
 
 ---
 
-## CI/CD
+## CI/CD Settings
 
-### Pipelines
+### General pipelines
 
-| Setting | Value |
-| :--- | :--- |
-| Pipeline visibility | Project-based (follows project visibility) |
-| Auto-cancel redundant pipelines | ✅ |
-| Prevent outdated deployment jobs | ✅ |
-| Allow retries for rollback deployments | ❌ |
-| Separate caches for protected branches | ❌ |
-| CI/CD configuration file | `.gitlab-ci.yml` |
+- [x] Project-based pipeline visibility
+- [x] Auto-cancel redundant pipelines
+- [x] Prevent outdated deployment jobs
+  - [ ] Allow job retries for rollback deployments
+- [ ] Use separate caches for protected branches
+
+### CI/CD configuration file
+
+`.gitlab-ci.yml`
 
 ### Git strategy
 
-| Setting | Value |
-| :--- | :--- |
-| Strategy | **git fetch** (reuse workspace, faster than clone) |
-| Shallow clone depth | **20** |
-| Job timeout | **1 hour** |
-| Automatic pipeline cleanup | Disabled |
+- [ ] git clone
+- [x] git fetch
+  Re-use the project workspace. Falls back to clone if workspace doesn't exist.
+
+Git shallow clone: `20`
+
+Timeout: `1h`
+
+Automatic pipeline cleanup: empty (never)
 
 ### Artifacts
 
-| Setting | Value |
-| :--- | :--- |
-| Keep artifacts from most recent successful jobs | ✅ |
+- [x] Keep artifacts from most recent successful jobs
 
 ### Variables
 
-| Setting | Value |
-| :--- | :--- |
-| Minimum role to use pipeline variables | **Developer** |
-| MR pipelines access protected variables | ✅ (source + target both protected) |
-| Display manually-defined variables | ❌ (security risk) |
+#### Minimum role to use pipeline variables
+
+- [ ] No one allowed
+- [ ] Owner
+- [ ] Maintainer
+- [x] Developer
+
+#### Access protected resources in merge request pipelines
+
+- [x] Allow merge request pipelines to access protected variables and runners
+  Only when both source and target branches are protected.
+
+#### Display manually-defined pipeline variables
+
+- [ ] Display pipeline variables
+  Security risk — never enable if variables contain secrets.
 
 ---
 
