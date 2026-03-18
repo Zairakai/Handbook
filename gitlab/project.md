@@ -107,6 +107,19 @@ Default settings applied to all projects. Settings marked **override** must be a
 
 - [x] Auto-close referenced issues on default branch
 
+> **Override per subgroup:**
+>
+> | Subgroup | Default branch | Reason |
+> | :------- | :------------- | :----- |
+> | `php-packages` | `main` | Published version on Packagist |
+> | `npm-packages` | `main` | Published version on npm |
+> | `dockers` | `main` | Published version on Docker Hub |
+> | `applications` | `develop` | No public release — dense MR workflow |
+> | `templates` | `main` | — |
+>
+> For `php-packages`, `npm-packages`, and `dockers`, `main` reflects the published, stable version visible to external users. Setting `develop` as default would expose unreleased code as the project landing page.
+> For `applications`, `develop` is the active integration branch and the natural target for feature MRs.
+
 #### Branch name template
 
 ```bash
