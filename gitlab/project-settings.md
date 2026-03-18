@@ -119,16 +119,12 @@ Branches created from issues follow `{issue-id}-{issue-title}`.
 
 | Branch | Allowed to merge | Allowed to push and merge | Force push |
 | ------ | ---------------- | ------------------------- | ---------- |
-| `*` | No one | No one | ✗ |
 | `main` | Maintainers | No one | ✗ |
 | `develop` | Maintainers | No one | ✗ |
 | `release/*` | Maintainers | Maintainers | ✗ |
-| `feature/*` | No one | Developers + Maintainers | ✓ |
-| `fix/*` | No one | Developers + Maintainers | ✓ |
-| `hotfix/*` | No one | Developers + Maintainers | ✓ |
-| `wip/*` | No one | Developers + Maintainers | ✓ |
+| `*` | No one | Developers + Maintainers | ✓ |
 
-> Force push allowed on working branches to facilitate rebase before merge.  
+> Force push allowed on working branches via the catch-all rule to facilitate rebase before merge.
 > Avoid abusing it.
 
 ### Protected tags
