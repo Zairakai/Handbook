@@ -122,9 +122,8 @@ Branches created from issues follow `{issue-id}-{issue-title}`.
 | `main` | Maintainers | No one | ✗ |
 | `develop` | Maintainers | No one | ✗ |
 | `release/*` | Maintainers | Maintainers | ✗ |
-| `*` | No one | Developers + Maintainers | ✓ |
 
-> Force push allowed on working branches via the catch-all rule to facilitate rebase before merge.  
+> Force push allowed on working branches to facilitate rebase before merge.
 > Avoid abusing it.
 
 ### Protected tags
