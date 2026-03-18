@@ -11,7 +11,9 @@ Reference settings for GitLab groups and projects in the Zairakai organization. 
 | Page | Contents |
 | :--- | :--- |
 | **[Group Settings][group]** | Permissions, 2FA, branch protection defaults, package registry |
+| **[Subgroup Settings][subgroup]** | Inherited defaults, visibility, runners, package registry |
 | **[Project Settings][project]** | Visibility, branch rules, merge method, CI/CD, commit templates |
+| **[Labels][labels]** | Label taxonomy — Kind, Priority, Status, Area, Standalone |
 
 ---
 
@@ -29,5 +31,7 @@ Reference settings for GitLab groups and projects in the Zairakai organization. 
 **[Back to Handbook][handbook]**
 
 [handbook]: ../README.md
-[group]: ./group-settings.md
-[project]: ./project-settings.md
+[group]: ./group.md
+[subgroup]: ./subgroup.md
+[project]: ./project.md
+[labels]: ./labels.md
