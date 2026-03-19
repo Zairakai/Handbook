@@ -156,9 +156,12 @@ Branches created from issues follow `{issue-id}-{issue-title}`.
 - [x] Merge commit with semi-linear history
   Merging is only allowed when the source branch is up-to-date with its target.
   When semi-linear merge is not possible, the user is given the option to rebase.
+  - [x] Enable automatic rebase prior to merge *(Beta)*
 - [ ] Fast-forward merge
 
-> Enforces rebase before merge. Developers who don't rebase are prompted to do so.
+> Semi-linear history enforces a clean, readable graph on protected branches.
+> Automatic rebase eliminates the need to manually rebase `develop` on `main`
+> before each merge — GitLab handles it server-side.
 
 ### Merge options
 
