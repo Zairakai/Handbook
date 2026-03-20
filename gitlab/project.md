@@ -152,13 +152,18 @@ Branches created from issues follow `{issue-id}-{issue-title}`.
 
 ### Merge method
 
-- [ ] Merge commit
-- [x] Merge commit with semi-linear history
-  Merging is only allowed when the source branch is up-to-date with its target.
-  When semi-linear merge is not possible, the user is given the option to rebase.
+- [x] Merge commit
+- [ ] Merge commit with semi-linear history
 - [ ] Fast-forward merge
 
-> Enforces rebase before merge. Developers who don't rebase are prompted to do so.
+> Standard three-way merge commit. No rebase required before merging.
+>
+> Semi-linear history is incompatible with Gitflow's `develop`→`main` pattern:
+> each merge commit on `main` is never back-propagated to `develop`, so every
+> subsequent `develop`→`main` MR triggers a mandatory rebase. This creates
+> duplicate-SHA commits (rebased copies with same content, different hash) and
+> produces a misleading graph. Regular merge commit avoids all of this while
+> keeping a clean, readable Gitflow graph.
 
 ### Merge options
 
