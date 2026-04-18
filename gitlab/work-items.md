@@ -194,6 +194,23 @@ Workflow:
 `Priority::High` / `Priority::Critical` express urgency within the backlog.  
 `Status::Ready` marks issues qualified for sprint assignment.
 
+### Board scope limitation
+
+Filtering an Issue Board by milestone **permanently** requires **GitLab Premium**.  
+On the Free plan, the milestone filter on a board is session-scoped — it resets when navigating away.
+
+**Free plan workaround — `Sprint::Current` label**
+
+1. Create a `Sprint::Current` label on the project (standalone, no scope).
+2. At sprint start: assign `Sprint::Current` to all sprint issues.
+3. Create a saved view filtered on `labelName: ["Sprint::Current"]` — this persists across navigation.
+4. At sprint end: remove `Sprint::Current` from closed issues, assign it to the next sprint issues.
+
+The saved view gives a persistent sprint list with Task hierarchy visible.  
+The board still requires a manual milestone filter for the Kanban layout — two clicks per session.
+
+> This workaround is **not pre-configured** on any project — create it on demand when the manual filter becomes inconvenient.
+
 ---
 
 ## Saved Views
