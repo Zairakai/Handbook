@@ -58,7 +58,17 @@ git checkout -b chore/#TICKET-release-v3.2.1
 npm version patch   # or minor / major
 ```
 
-### 2. Quality Gate
+### 2. README & Badges Check
+
+Before tagging, verify `README.md` reflects the new version:
+
+- PHP version badge matches the `require.php` constraint in `composer.json`
+- Laravel version badge matches the `require.illuminate/*` or `require.laravel/framework` constraint
+- Any other version references in the README (stack table, description) are accurate
+
+This applies to **every package** in the release chain — if `laravel-dev-tools` is bumped, all downstream packages that bump in turn must also be checked.
+
+### 3. Quality Gate
 
 ```bash
 make quality && make test-all
@@ -66,14 +76,14 @@ make quality && make test-all
 
 The pipeline must be **100% green** before tagging.
 
-### 3. Tag and Push
+### 4. Tag and Push
 
 ```bash
 git tag v3.2.1
 git push origin main --tags
 ```
 
-### 4. Publish
+### 5. Publish
 
 | Ecosystem | Trigger | Registry |
 | :--- | :--- | :--- |

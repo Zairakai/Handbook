@@ -2,7 +2,7 @@
 
 > **[Handbook][handbook]** › **[Templates][templates]** › php-package
 
-Boilerplate for new `zairakai/*` Composer packages. PHP 8.3, Laravel 11|12, Orchestra Testbench, full `zairakai/laravel-dev-tools` integration, GitLab CI ready.
+Boilerplate for new `zairakai/*` Composer packages. PHP 8.4, Laravel 12|13, Orchestra Testbench, full `zairakai/laravel-dev-tools` integration, GitLab CI ready.
 
 **Repository:** `Templates/php-package/`
 **Type:** Composer library

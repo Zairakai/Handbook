@@ -55,10 +55,11 @@ Production-ready boilerplates — see **[Templates][templates]** for the overvie
 
 | Template | Stack | Description |
 | :--- | :--- | :--- |
-| **[Laravel 11][laravel-11-template]** | Laravel 11 + Vue 3 + TypeScript | Full-stack boilerplate — API, Blade, frontend, auth, i18n, seeders, Vitest, BATS. |
-| **[Laravel 12][laravel-12-template]** | Laravel 12 + Vue 3 + TypeScript | Same as Laravel 11 boilerplate, targeting `laravel/framework: ^12.0`. |
+| ~~[Laravel 11][laravel-11-template]~~ | Laravel 11 + Vue 3 + TypeScript | **ARCHIVED** — L11 EOL. |
+| **[Laravel 12][laravel-12-template]** | Laravel 12 + Vue 3 + TypeScript | Full-stack boilerplate — API, Blade, frontend, auth, i18n, seeders, Vitest, BATS. |
+| **Laravel 13** | Laravel 13 + Vue 3 + TypeScript | Same as Laravel 12 boilerplate, targeting `laravel/framework: ^13.0`. |
 | **[npm-package][npm-package-template]** | TypeScript — ESM + CJS | Boilerplate for `@zairakai/*` NPM packages. |
-| **[php-package][php-package-template]** | PHP 8.3 — Laravel 11\|12 | Boilerplate for `zairakai/*` Composer packages. |
+| **[php-package][php-package-template]** | PHP 8.4 — Laravel 12\|13 | Boilerplate for `zairakai/*` Composer packages. |
 
 ---
 
@@ -76,6 +77,16 @@ Full standards by language and tool — see **[Coding Standards][standards]** fo
 | **[Laravel][laravel]** | Controllers, Form Requests, Eloquent, routes, Service Providers. |
 | **[SCSS / CSS / Blade][scss-css-blade]** | BEM, Prettier, Stylelint, Blade conventions. |
 | **[Testing][testing]** | PHPUnit, Vitest, BATS — coverage 100%, structure, naming. |
+
+---
+
+## 📄 Decisions & Quick References
+
+Standalone decision records — see **[Decisions][docs]** for the index.
+
+| Document | Description |
+| :--- | :--- |
+| **[Default Branch Policy][default-branch]** | Default branch per project type and rationale |
 
 ---
 
@@ -136,4 +147,6 @@ Follow the rules defined here for every Merge Request. Any deviation is flagged 
 [laravel]: ./standards/laravel.md
 [scss-css-blade]: ./standards/scss-css-blade.md
 [testing]: ./standards/testing.md
+[docs]: ./docs/README.md
+[default-branch]: ./docs/default-branch-policy.md
 [zairakai]: https://gitlab.com/zairakai
