@@ -14,6 +14,7 @@ Reference settings for GitLab groups and projects in the Zairakai organization. 
 | **[Subgroup Settings][subgroup]** | Inherited defaults, visibility, runners, package registry |
 | **[Project Settings][project]** | Visibility, branch rules, merge method, CI/CD, commit templates |
 | **[Labels][labels]** | Label taxonomy — Kind, Priority, Status, Area, Standalone |
+| **[Work Items][work-items]** | Epic / Issue / Task hierarchy, usage rules, board setup |
 
 ---
 
@@ -35,3 +36,4 @@ Reference settings for GitLab groups and projects in the Zairakai organization. 
 [subgroup]: ./subgroup.md
 [project]: ./project.md
 [labels]: ./labels.md
+[work-items]: ./work-items.md
