@@ -107,7 +107,7 @@ variables:
 
 ### Versioning in CI
 
-On tag push (`v*`), the pipeline reads the tag, sets `npm version` to the tag value, then publishes. The `0.0.0` in `package.json` is never used in production.
+On tag push (`MAJOR.MINOR.PATCH`), the pipeline reads the tag, sets `npm version` to the tag value, then publishes. The `0.0.0` in `package.json` is never used in production.
 
 ### Updating the pipeline ref
 
