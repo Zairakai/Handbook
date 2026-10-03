@@ -141,10 +141,12 @@ Branches created from issues follow `{issue-id}-{issue-title}`.
 
 ### Protected tags
 
+> GitLab only supports the `*` wildcard, not character classes: `*.*.*` matches `MAJOR.MINOR.PATCH`.
+
 | Tag | Allowed to create |
 | --- | ----------------- |
 | `*` | No one |
-| `[0-9]*` | Maintainers |
+| `*.*.*` | Maintainers |
 
 ---
 
