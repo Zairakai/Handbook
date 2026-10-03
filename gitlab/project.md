@@ -144,7 +144,7 @@ Branches created from issues follow `{issue-id}-{issue-title}`.
 | Tag | Allowed to create |
 | --- | ----------------- |
 | `*` | No one |
-| `v*` | Maintainers |
+| `[0-9]*` | Maintainers |
 
 ---
 

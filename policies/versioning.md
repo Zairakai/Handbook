@@ -33,14 +33,16 @@ All Zairakai packages follow **[SemVer][semver]** strictly: `MAJOR.MINOR.PATCH`
 
 ## Git Tags
 
-Tags follow the format **`vMAJOR.MINOR.PATCH`** — always prefixed with `v`:
+Tags follow the format **`MAJOR.MINOR.PATCH`** — never prefixed with `v`:
 
 ```bash
-git tag v3.2.1
-git push origin v3.2.1
+git tag 3.2.1
+git push origin 3.2.1
 ```
 
 Never tag directly on `main` without a passing CI pipeline.
+
+> Tags created before this rule (`v2.2.0`, `v1.4.3`, ...) keep their `v`: they are never renamed, because projects pin them in their `.gitlab-ci.yml`. A project can therefore have both forms in its history. Composer and npm read `v2.2.0` and `2.2.0` as the same version.
 
 ---
 
@@ -50,7 +52,7 @@ Never tag directly on `main` without a passing CI pipeline.
 
 ```bash
 # Create a release branch if needed
-git checkout -b chore/#TICKET-release-v3.2.1
+git checkout -b chore/#TICKET-release-3.2.1
 
 # Bump version in the relevant manifest
 # PHP: composer.json (no "version" field — Packagist reads the tag)
@@ -79,7 +81,7 @@ The pipeline must be **100% green** before tagging.
 ### 4. Tag and Push
 
 ```bash
-git tag v3.2.1
+git tag 3.2.1
 git push origin main --tags
 ```
 

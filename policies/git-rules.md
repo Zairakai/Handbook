@@ -168,7 +168,7 @@ Draft: feat(auth): #102 add OAuth2 provider support
 
 ## 🏷️ Tags & Releases
 
-Version tags (`v1.2.3`) are **reserved for maintainers** — contributors must not push tags. Any tag pushed by a non-maintainer will be deleted.
+Version tags (`1.2.3`) are **reserved for maintainers** — contributors must not push tags. Any tag pushed by a non-maintainer will be deleted.
 
 The full tagging and release process is defined in [Versioning][versioning].
 

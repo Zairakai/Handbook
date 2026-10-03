@@ -67,7 +67,7 @@ For packages with multiple sub-exports, add entries under `exports`:
 The CI pipeline resolves the version from the git tag at publish time:
 
 ```text
-git tag v1.2.3 → CI reads tag → npm publish --tag latest (version 1.2.3)
+git tag 1.2.3 → CI reads tag → npm publish --tag latest (version 1.2.3)
 ```
 
 This means `npm install @zairakai/{{PACKAGE_SLUG}}` always installs the latest tagged release regardless of what `package.json` says.
