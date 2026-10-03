@@ -42,6 +42,18 @@ git push origin 3.2.1
 
 Never tag directly on `main` without a passing CI pipeline.
 
+### Format check
+
+The format is defined once, in the CI/CD variable **`VERSION_TAG_REGEX`** of the `zairakai` GitLab group (and as a repository variable on each GitHub repository):
+
+```text
+/^([0-9]+\.){2}[0-9]+(-[0-9A-Za-z.]+)?$/
+```
+
+It accepts `3.2.1` and a pre-release such as `3.2.1-rc.1`. A pipeline is created for every tag: the job `tag-format` fails when the tag does not match, and the jobs that publish only run for a tag that matches.
+
+The protected tag rule (`*.*.*`, maintainers only) is a glob and cannot check the format: the pipeline does. Pre-releases are published on npm with the tag `next`, and are refused by the Docker image pipelines, which move `latest`.
+
 > Tags created before this rule (`v2.2.0`, `v1.4.3`, ...) keep their `v`: they are never renamed, because projects pin them in their `.gitlab-ci.yml`. A project can therefore have both forms in its history. Composer and npm read `v2.2.0` and `2.2.0` as the same version.
 
 ---
