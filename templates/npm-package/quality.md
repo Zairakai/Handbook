@@ -87,7 +87,7 @@ git push --no-verify     # bypass pre-push (justified cases only)
 ```yaml
 include:
   - project: "zairakai/npm-packages/js-dev-tools"
-    ref: v1.0.0
+    ref: 3.0.1
     file: ".gitlab/ci/pipeline-js-package.yml"
 
 variables:
