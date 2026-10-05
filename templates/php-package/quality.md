@@ -137,7 +137,7 @@ git push --no-verify     # bypass pre-push (justified cases only)
 ```yaml
 include:
   - project: 'zairakai/php-packages/laravel-dev-tools'
-    ref: v1.0.0
+    ref: 3.0.0
     file: '.gitlab/ci/pipeline-php-package.yml'
 
 variables:

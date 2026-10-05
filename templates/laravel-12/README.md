@@ -14,7 +14,7 @@ Production-grade Laravel 12 boilerplate — full-stack SPA with Vue 3 + TypeScri
 | :--- | :--- |
 | **Backend** | Laravel 12, Sanctum, Pint, PHPStan max, Rector, PHPInsights, BATS |
 | **Frontend** | Vue 3, TypeScript, Pinia, Vue Router, `@zairakai/vue-components`, Vitest |
-| **Tooling** | Docker (PHP + Node + MySQL + Redis + MinIO + Mailpit), Makefile, GitLab CI |
+| **Tooling** | Docker (PHP + Node + MySQL + Redis + RustFS + Mailpit), Makefile, GitLab CI |
 | **Dev tools** | `zairakai/laravel-dev-tools` + `@zairakai/js-dev-tools` |
 
 ---
