@@ -139,6 +139,29 @@ Naming convention: `YYYY_MM_DD_HHMMSS_verb_description_table.php`
 | Tables | plural `snake_case` | `users`, `blog_posts` |
 | Columns | `snake_case` | `first_name`, `created_at` |
 | Foreign keys | `singular_table_id` | `user_id`, `blog_post_id` |
+| Indexes | `idx_{table_abbr}_{descriptor}` | `idx_pt_testimonialable` |
+
+### Index Naming — MySQL 64-char limit
+
+MySQL enforces a **64-character maximum** on all identifiers including index names.
+Laravel auto-generates index names as `{table}_{columns}_index`, which can exceed this
+limit on tables with long names or polymorphic columns.
+
+When the auto-generated name would exceed 64 chars, pass an explicit name as the second
+argument:
+
+```php
+// BAD - auto-generates "profile_testimonials_testimonialable_type_testimonialable_id_index" (66 chars)
+$table->nullableMorphs('testimonialable');
+
+// GOOD - explicit short name following idx_{table_abbr}_{descriptor} convention
+$table->nullableMorphs('testimonialable', 'idx_pt_testimonialable');
+```
+
+Prefix rules:
+- `idx_` - regular index (including polymorphic morph indexes)
+- Table abbreviation: initials of the table name (`pt` for `profile_testimonials`)
+- Never use `fk_` for morph indexes - they are not foreign key constraints
 
 ---
 
