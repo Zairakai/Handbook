@@ -95,8 +95,20 @@ Apply regularly — at least once per sprint, and right away for a security advi
 
 `zairakai/laravel-dev-tools` and `@zairakai/js-dev-tools` are updated like any other dependency (`composer update` / `npm update`), but two things are **not** automatic:
 
-- The `ref:` of the `include:` in `.gitlab-ci.yml` is pinned to a tag (for example `ref: 3.0.1`). Bump it by hand to the version of the installed package, in the same merge request as the dependency.
+- The `ref:` of the `include:` in `.gitlab-ci.yml` is pinned to a tag (for example `ref: 3.0.1`). Bump it by hand to the version of the installed package, in the same merge request as the dependency. For the NPM packages, the `postinstall` script of `@zairakai/js-dev-tools` rewrites this `ref:` when the package is installed: read the diff of `.gitlab-ci.yml` to be sure.
 - The files published in `config/dev-tools/` (and the like) are copies owned by the project: they hold project specific settings. Do **not** run `setup-project.sh --publish --force` / `setup-package.sh --publish --force` to refresh them, it overwrites those settings. Compare with the stub and merge the differences by hand.
+
+---
+
+## Automated updates
+
+Design agreed on 2026-10-09. Status: the data packages already work this way (see [Versioning][versioning]); the cascade of the two dev-tools packages is being put in place.
+
+- **The two dev-tools packages check their dependencies every Monday**, and every day for security advisories only. A new version of a dependency is taken after a cooling period of 3 days, so that a compromised release is not published automatically.
+- **Prepare, test, publish**: the update is applied on a branch, then the quality gate and the tests run. If everything is green, the merge requests are merged, the MINOR tag is made and the package is published. If anything fails, or if a major version is needed, a merge request stays open and nothing is published.
+- **Cascade**: once the new version is available on the registry (the job waits for it, there is no fixed hour), the projects that use it are updated. They are found through the GitLab API in the groups `npm-packages` and `php-packages`, so there is no list to maintain. They are updated, tested and merged, and tagged only when their own runtime constraints changed (see [Versioning][versioning]).
+- **The exceptions live in the project**: a small file at the root lists what must not be updated automatically, and why (TypeScript 6 until `typescript-eslint` supports 7, `vue-tsc` and `@vue/language-core` pinned while the Prettier plugin adds imports to the `.vue` files).
+- A major update is never merged automatically.
 
 ---
 
@@ -124,7 +136,7 @@ Move an application to a new Laravel major **only when every package it uses sup
 composer require "laravel/framework:^13.0" -W --dry-run
 ```
 
-Packages we own declare `^12.0 || ^13.0` as soon as their tests pass on both versions. If a third party package blocks, stay on the current major and update only within it (patch and minor). Then, for the move itself: one branch, `composer update -W`, the full test suite, the quality gate and `composer audit`. Do not merge on red.
+Packages we own declare `^12.0 || ^13.0` as soon as their tests pass on both versions. We support only the Laravel majors that still receive security fixes: Laravel 11 was dropped when its security support ended (March 2026), which is a MAJOR release of the packages (see [Versioning][versioning]). If a third party package blocks, stay on the current major and update only within it (patch and minor). Then, for the move itself: one branch, `composer update -W`, the full test suite, the quality gate and `composer audit`. Do not merge on red.
 
 ---
 
@@ -148,7 +160,12 @@ Packages we own declare `^12.0 || ^13.0` as soon as their tests pass on both ver
 - **`composer cs-fix` only fixes the files changed in the working tree**: run it on all files (`composer cs` to check) before pushing.
 - **PHP Insights fails on advisories**: its Security check reports any known advisory of the locked dependencies, so a new advisory can turn a green pipeline red without any code change. Update the lock.
 - **Do not update only part of the PHP tooling**: with `laravel-dev-tools` 2, updating `phpstan` alone breaks `rector`. Move `laravel-dev-tools` first.
-- **Vue projects**: a full `npm update` can make `prettier-plugin-organize-imports` add unused imports. Update the vulnerable packages only and investigate separately.
+- **Vue projects**: `@vue/language-core` 3.3.12 makes `prettier-plugin-organize-imports` add `defineOptions` and `defineProps` to the imports of the `.vue` files (they are compiler macros, never imported). Keep `vue-tsc` and `@vue/language-core` on 3.3.10 (exact versions) and update `vue` itself. Remove the pin when the plugin is fixed.
+- **`braces` and its chain** (`micromatch`, `fast-glob`, `globby`, then `stylelint` and `markdownlint-cli2`): an advisory covers every published version (3.0.3 is the last one). `npm audit` stays red and no update fixes it. They are development tools: leave it, and check again at each update.
+- **VitePress and `vite`**: VitePress 1.6.4, the latest stable version, depends on `vite ^5.4`, a line with no fix. Force `vite ^6.4.3` with an `overrides` entry in `docs/package.json`, and check that `npm run build` still builds the site. Remove the override when VitePress moves to a fixed Vite.
+- **Generated documentation files break the linters**: the build of the documentation writes `docs/guide/`, `docs/.vitepress/dist` and `docs/node_modules`, ignored by git but scanned by markdownlint. Run `git clean -fdX docs` before `make quality`.
+- **`git tag` without a message fails** when `tag.gpgSign` is set: use `git tag -a X.Y.Z -m X.Y.Z`.
+- **`Closes #N` is only read on the default branch**: a merge request into `develop` does not close the issue, so the one into `main` must carry it.
 - **Vitest config**: run the unit tests with the project config (`--config config/dev-tools/vitest.config.js`), without it the jsdom environment is missing.
 - **Runner cache**: the shared pipeline keeps `vendor/` on the runner between jobs. If a job fails with a class that does not exist after a major update, set `GIT_CLEAN_FLAGS: "-ffdx -e .composer-cache/ -e node_modules/ -e .npm/"` in the project variables.
 
