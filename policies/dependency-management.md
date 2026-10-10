@@ -167,6 +167,10 @@ Packages we own declare `^12.0 || ^13.0` as soon as their tests pass on both ver
 - **`git tag` without a message fails** when `tag.gpgSign` is set: use `git tag -a X.Y.Z -m X.Y.Z`.
 - **`Closes #N` is only read on the default branch**: a merge request into `develop` does not close the issue, so the one into `main` must carry it.
 - **Vitest config**: run the unit tests with the project config (`--config config/dev-tools/vitest.config.js`), without it the jsdom environment is missing.
+- **Do not raise the minimum of a tool that imposes framework components**: `phpinsights` 2.14.2 needs `symfony/console` 7.4 or 8, so raising its minimum in `php-dev-tools` closed the door to Symfony 6.4, which the package supports. The package adapts, not the tool: the jobs that test a framework do not install `php-dev-tools` and keep their own PHPStan rules (`phpstan-frameworks.neon`).
+- **Scripts run by `postinstall` in CI mode**: when `CI` is set, `setup-project.sh` removes the target before copying the source. In `js-dev-tools` itself both are the same file, so `.editorconfig` was deleted and the automatic update committed it. A file is never copied onto itself. Read the diff of the first merge request of a new automation before arming its auto-merge.
+- **The runner keeps its working directory**: the local branch of a previous run still exists, so create the update branch with `git switch -C`.
+- **Docker Hub tokens**: Docker deactivated a personal access token after a vulnerability notice (the e-mail names the tokens), and the `promote` jobs failed with 401. Give tokens an expiry, and read the notices of Docker before looking elsewhere.
 - **Runner cache**: the shared pipeline keeps `vendor/` on the runner between jobs. If a job fails with a class that does not exist after a major update, set `GIT_CLEAN_FLAGS: "-ffdx -e .composer-cache/ -e node_modules/ -e .npm/"` in the project variables.
 
 ---
