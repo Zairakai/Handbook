@@ -2,6 +2,8 @@
 
 > **[Handbook][handbook]** › **[Packages][packages]** › **[js-dev-tools][pkg]** › Configs
 
+The configurations described here are defined in `@stanislas-poisson/js-dev-tools` and re-exported by this package under the same paths.
+
 ---
 
 ## ESLint

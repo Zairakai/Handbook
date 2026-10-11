@@ -8,6 +8,8 @@ Unified JS/TS development toolchain. Provides code style, static analysis, CSS l
 **npm:** `@zairakai/js-dev-tools`
 **Type:** ESM (`"type": "module"`)
 
+The ESLint, Prettier, Stylelint, Vitest, TypeScript and markdownlint configurations live in the base package [`@stanislas-poisson/js-dev-tools`](https://github.com/Stanislas-Poisson/js-dev-tools), which this package requires. The paths `@zairakai/js-dev-tools/eslint`, `/prettier` and the others re-export it and stay the same. This package keeps the scripts, the Makefiles, the Git hooks, the CI templates and the automatic update.
+
 ---
 
 ## What it provides

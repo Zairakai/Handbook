@@ -47,6 +47,8 @@ Centralized dev toolchain packages — see **[Packages][packages-overview]** for
 | **[zairakai/laravel-dev-tools][laravel-dev-tools]** | Composer | PHP/Laravel: PHPStan, Pint, Rector, PHPInsights, BATS, Makefile, git hooks, GitLab CI |
 | **[@zairakai/js-dev-tools][js-dev-tools]** | npm | JS/TS: ESLint, Prettier, Stylelint, Vitest, Knip, TypeScript, Makefile, git hooks |
 
+Both extend a base package (`stanislas-poisson/php-dev-tools`, `@stanislas-poisson/js-dev-tools`), see the [overview][packages-overview].
+
 ---
 
 ## 🗂️ Templates
@@ -109,7 +111,7 @@ Use the `dev-tools` packages to publish pre-configured stub files to your projec
 bash vendor/zairakai/laravel-dev-tools/scripts/setup-package.sh --publish=governance
 
 # NPM project
-bash node_modules/@zairakai/dev-tools/scripts/setup-project.sh --publish=governance
+bash node_modules/@zairakai/js-dev-tools/scripts/setup-project.sh --publish=governance
 ```
 
 ### For Contributors
