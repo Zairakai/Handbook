@@ -57,7 +57,6 @@ Production-ready boilerplates — see **[Templates][templates]** for the overvie
 
 | Template | Stack | Description |
 | :--- | :--- | :--- |
-| ~~[Laravel 11][laravel-11-template]~~ | Laravel 11 + Vue 3 + TypeScript | **ARCHIVED** — L11 EOL. |
 | **[Laravel 12][laravel-12-template]** | Laravel 12 + Vue 3 + TypeScript | Full-stack boilerplate — API, Blade, frontend, auth, i18n, seeders, Vitest, BATS. |
 | **Laravel 13** | Laravel 13 + Vue 3 + TypeScript | Same as Laravel 12 boilerplate, targeting `laravel/framework: ^13.0`. |
 | **[npm-package][npm-package-template]** | TypeScript — ESM + CJS | Boilerplate for `@zairakai/*` NPM packages. |
@@ -129,7 +128,6 @@ Follow the rules defined here for every Merge Request. Any deviation is flagged 
 [laravel-dev-tools]: ./packages/laravel-dev-tools/README.md
 [js-dev-tools]: ./packages/js-dev-tools/README.md
 [templates]: ./templates/README.md
-[laravel-11-template]: ./templates/laravel-11/README.md
 [laravel-12-template]: ./templates/laravel-12/README.md
 [npm-package-template]: ./templates/npm-package/README.md
 [php-package-template]: ./templates/php-package/README.md

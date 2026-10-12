@@ -10,7 +10,6 @@ Production-ready boilerplates for new Zairakai projects. Each template is pre-co
 
 | Template | Stack | Description |
 | :--- | :--- | :--- |
-| ~~[Laravel 11][laravel-11]~~ | Laravel 11 + Vue 3 + TypeScript | **ARCHIVED** — L11 EOL. |
 | **[Laravel 12][laravel-12]** | Laravel 12 + Vue 3 + TypeScript | Full-stack boilerplate — API, Blade, frontend, auth, i18n, seeders, Vitest, BATS. |
 | **Laravel 13** | Laravel 13 + Vue 3 + TypeScript | Same as Laravel 12 boilerplate, targeting `laravel/framework: ^13.0`. |
 | **[npm-package][npm-package]** | TypeScript — ESM + CJS | Boilerplate for `@zairakai/*` NPM packages. |
@@ -32,7 +31,6 @@ Templates live in `Templates/` in the monorepo. To start a new project from a te
 **[Back to Handbook][handbook]**
 
 [handbook]: ../README.md
-[laravel-11]: ./laravel-11/README.md
 [laravel-12]: ./laravel-12/README.md
 [npm-package]: ./npm-package/README.md
 [php-package]: ./php-package/README.md
