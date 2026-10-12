@@ -29,7 +29,7 @@ target: dependencies
 
 ```makefile
 # Define
-DEV_TOOLS := node_modules/@zairakai/dev-tools
+DEV_TOOLS := node_modules/@zairakai/js-dev-tools
 
 # Use
 include $(DEV_TOOLS)/tools/make/core.mk
