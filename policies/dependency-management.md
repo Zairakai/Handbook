@@ -112,6 +112,9 @@ Working on the two ecosystems since 2026-10-11 (NPM and Composer), validated end
 - **Tag only when the published ranges change** (see [Versioning][versioning]): the `dev-tools` packages get a MINOR, the other packages a PATCH. A consumer that only has the dev-tools in `devDependencies` is updated and merged but not tagged.
 - **Signed**: the commits and the tags of the automation are signed with a dedicated key (`Stanislas Poisson (autoupdate)`), from the group variables `GPG_PRIVATE_KEY_B64`, `RELEASE_SIGNER_NAME` and `RELEASE_SIGNER_EMAIL`. Without them the tool stops: there is no unsigned tag.
 - **The exceptions live in the project**: the file `.dependency-update.json` lists what must not be updated (`reject`, with the reason), the `cooldown`, the tag policy (`tag.when`, `tag.level`) and the groups of the `cascade`.
+- **The dependency policy**: the repository [zairakai/dependency-policy][dependency-policy] lists, in `node.json` and `php.json`, the packages that no project updates yet (with the reason, the date and, when it can be checked, the condition that lifts the block: the peer ranges of the packages that hold it back must accept the version). The update tools read it at each run, so a rule changes without a release of the tools and without a cascade. If the file cannot be read, the update stops with an alert instead of going blind. A daily job of that repository lifts an entry by a merge request when its condition is met, and the tools take the package at their next run. A project can still list a package of its own in `reject`.
+- **Lock files are refreshed**: the weekly update also refreshes `package-lock.json` inside the ranges (after the cooling period, the packages of the group are not made to wait), because the `overrides` of a package do not apply to the packages that use it. When npm cannot respect the cooling period, the refresh waits for the next run and the update goes on.
+- **Security advisories**: a daily job looks for them in every project. One issue per advisory (priority from the severity, status Ready) and one notification per audit, for the advisories of a moderate severity or above. An advisory that only comes through a package of the group is followed in that package and does not open a duplicate issue in the packages that use it. When an update is merged into `develop`, the issues whose advisory is gone from the tree are closed at once: a fix in a base package closes the issues of the others with the cascade.
 - A major update is never merged automatically.
 
 ---
@@ -203,3 +206,4 @@ make outdated        # List outdated npm/yarn dependencies
 [handbook]: ../README.md
 [policies]: ./README.md
 [versioning]: ./versioning.md
+[dependency-policy]: https://gitlab.com/zairakai/dependency-policy
