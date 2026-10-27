@@ -11,6 +11,7 @@ Rules and processes that govern **how we work** across all Zairakai projects —
 | Policy | Description |
 | :--- | :--- |
 | **[Git Rules][git-rules]** | Commit format, branching strategy, breaking changes, and ticket requirements. |
+| **[Pull Requests][pull-requests]** | Request title and description, merge order, back-merge, checks. |
 | **[Versioning][versioning]** | SemVer, release process, git tags, Packagist/NPM publishing. |
 | **[Dependency Management][dependency-management]** | Updating PHP and JS dependencies, runtimes (Node LTS, PHP, Laravel majors), Docker images and services, known pitfalls. |
 
@@ -20,5 +21,6 @@ Rules and processes that govern **how we work** across all Zairakai projects —
 
 [handbook]: ../README.md
 [git-rules]: ./git-rules.md
+[pull-requests]: ./pull-requests.md
 [versioning]: ./versioning.md
 [dependency-management]: ./dependency-management.md
