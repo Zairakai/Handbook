@@ -34,6 +34,7 @@ Rules and processes — see **[Policies][policies]** for the overview.
 | :--- | :--- |
 | **[Git Rules][git-rules]** | Commit format, branching strategy, breaking changes, and ticket requirements. |
 | **[Pull Requests][pull-requests]** | Request title and description, merge order, back-merge, checks. |
+| **[CI Pipelines][ci-pipelines]** | Quality gate, segmentation, images, versions from tags, secrets. |
 | **[Versioning][versioning]** | SemVer, release process, git tags, Packagist/NPM publishing. |
 | **[Dependency Management][dependency-management]** | How to update PHP and JS dependencies safely. |
 
@@ -138,6 +139,7 @@ Follow the rules defined here for every Merge Request. Any deviation is flagged 
 [policies]: ./policies/README.md
 [git-rules]: ./policies/git-rules.md
 [pull-requests]: ./policies/pull-requests.md
+[ci-pipelines]: ./policies/ci-pipelines.md
 [versioning]: ./policies/versioning.md
 [dependency-management]: ./policies/dependency-management.md
 [standards]: ./standards/README.md
