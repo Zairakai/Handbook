@@ -23,11 +23,16 @@ Draft: feat(export): #51 add CSV export
 
 ## 📄 Description
 
-Every request carries three parts, in this order:
+Only the **Summary** is always required. The ticket link goes at the very bottom and is required when the request is linked to one or more tickets; without a ticket there is nothing to add. Every other section is optional: add one only when it brings something the summary does not (a short description is easier to read).
 
-1. **Summary**: what changes and why, in a few lines.
-2. **Not validated**: what was not run or not checked, stated plainly. Write `Nothing` only when everything was verified.
-3. **Ticket link** at the bottom: `Related to #N`, or `Closes #N` when the request completes the ticket.
+1. **Summary** (required): what changes and why, in a few lines.
+2. **Optional sections**, in this order, each only when useful:
+   - `BREAKING CHANGE`: what breaks and how to migrate (same wording as the commit footer, see [Git Rules][git-rules]).
+   - `Testing`: how the reviewer can check the change.
+   - `Before / After`: screenshots or plain text, whichever shows the difference best.
+   - `Deployment`: migration, environment variable, feature flag.
+   - `Not validated`: what was not run or not checked, stated plainly. Leave the section out when everything was verified, never write `Nothing`.
+3. **Ticket link** at the bottom (required when a ticket exists): `Related to #N`, or `Closes #N` when the request completes the ticket.
 
 ### Format
 
@@ -51,6 +56,10 @@ Related to #<ticket>
 Adds token-bucket rate limiting on unauthenticated API routes to prevent
 abuse. The limit is configurable per environment with
 `RATE_LIMIT_PER_MINUTE` (default: 60).
+
+## Deployment
+
+- New environment variable `RATE_LIMIT_PER_MINUTE` (optional, default 60).
 
 ## Not validated
 
