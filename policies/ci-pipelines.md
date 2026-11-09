@@ -40,6 +40,16 @@ The version comes from the git tag only. No manual bump in a config file: the pi
 
 ---
 
+## Pipeline Time
+
+- A scheduled pipeline runs only its own jobs, not the validation and test jobs.
+- In a merge request, a job whose result depends on some files (lint of the Dockerfile, of the Markdown, of the shell scripts) runs only when they changed (`rules:changes`). Jobs that depend on it list it with `optional: true`.
+- A new commit cancels the running checks of the branch (`workflow:auto_cancel`, `interruptible`). The jobs that build, scan, promote or release are never interruptible.
+- What a job downloads is cached or avoided: npm packages, the vulnerability database of the scanner, a tool taken from its image instead of an install.
+- A Docker image is built without push in the merge request that changes what it contains, so a broken build shows before the tag.
+
+---
+
 ## Secrets
 
 No secret in a pipeline file: tokens and keys come from CI/CD variables (or `CI_JOB_TOKEN` for the project's own registry).
