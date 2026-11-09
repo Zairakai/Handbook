@@ -54,6 +54,17 @@ It accepts `3.2.1` and a pre-release such as `3.2.1-rc.1`. A pipeline is created
 
 The protected tag rule (`*.*.*`, maintainers only) is a glob and cannot check the format: the pipeline does. Pre-releases are published on npm with the tag `next`, and are refused by the Docker image pipelines, which move `latest`.
 
+### Docker base images
+
+The images `zairakai/node` and `zairakai/php` are the exception to SemVer: their tag is the version of the base image they contain, as the official images do.
+
+| Tag | Meaning |
+| :--- | :--- |
+| `24.22.2`, `8.4.27` | The image built on that version of Node or PHP. The Docker Hub tags `24.22`, `24` (`8.4`, `8`) and `latest` follow it. |
+| `24.22.2-1`, `8.4.27-2` | A new build with the same upstream version (a change of the image itself, or a refreshed base). The revision is a whole number that starts at 1. |
+
+The pipeline checks the tag against the version of the base image and fails when they differ. A pre-release (`-rc.1`) is refused. The freshness check creates the tag by itself (see the `AUTO_REBUILD` variable of the `zairakai/dockers` group); a change of the image made by hand is tagged with the next revision.
+
 > Tags created before this rule (`v2.2.0`, `v1.4.3`, ...) keep their `v`: they are never renamed, because projects pin them in their `.gitlab-ci.yml`. A project can therefore have both forms in its history. Composer and npm read `v2.2.0` and `2.2.0` as the same version.
 
 ---

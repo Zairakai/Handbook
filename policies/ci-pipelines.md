@@ -27,7 +27,9 @@ A pipeline is split so that each part can be read, changed and reused on its own
 ## Images
 
 - Jobs of a PHP or Node project run on the Zairakai images (`zairakai/php`, `zairakai/node`).
-- A third-party tool image (Alpine, ShellCheck, Hadolint, the release CLI, Kaniko) is pinned to a version tag and declared once in a `variables:` block.
+- A third-party tool image (Alpine, ShellCheck, Hadolint, the release CLI, Kaniko, Trivy) is pinned to a version tag and declared once, as a variable of the GitLab group of the projects that use it (`zairakai/dockers` for the Docker images), never in a pipeline file. The variables are not protected, so that merge request pipelines read them.
+- A tool is never installed with `curl | sh` from a moving branch: use its official image at a pinned tag, or a pinned release.
+- A version that a Dockerfile also holds (the base image of a Docker image) lives in the Dockerfile; a job checks that the group variable matches it.
 - Docker images are built with **Kaniko**. Docker-in-Docker is never used.
 
 ---
