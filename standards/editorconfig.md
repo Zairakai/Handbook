@@ -50,7 +50,7 @@ max_line_length = 80
 # Markdown: two trailing spaces are a line break
 [*.md]
 trim_trailing_whitespace = false
-max_line_length = 120
+indent_size = unset
 
 # Make requires tabs
 [{Makefile,*.mk}]
@@ -90,7 +90,8 @@ Add a section only when the repository has files of that type. JSON, YAML, JavaS
 ## Notes
 
 - **Line length is a guide.** The values follow each language's style guide (PHP: PER, soft limit 120; Python: ruff default 88; Shell: Google Shell Style Guide 80). Only the commit hook blocks on length.
-- **Markdown** (`*.md`): `trim_trailing_whitespace = false` because two trailing spaces are a valid Markdown line break (`  \n`).
+- **VS Code rulers**: none, except for Git commit messages (72 and 80), where the commit hook blocks on length.
+- **Markdown** (`*.md`): `trim_trailing_whitespace = false` because two trailing spaces are a valid Markdown line break (`  \n`). `indent_size = unset` because the indentation of a list item depends on its marker (a code block in `2. ` needs 3 spaces); markdownlint (`MD007`, `MD029`) checks lists.
 - **Makefile**: must use **tabs** — Make will fail with spaces.
 - **PHP**: 4-space indentation follows PER/PSR-12, enforced by Pint, and the Laravel `.editorconfig`.
 - **Blade** (`*.blade.php`): 2 spaces, like HTML (see [SCSS / CSS / Blade][scss-css-blade]). The pattern `*.php` also matches `*.blade.php`, so the `[*.blade.php]` section must come after `[*.php]` to override it.
