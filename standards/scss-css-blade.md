@@ -111,7 +111,7 @@ Group properties logically:
 
 ## Blade Conventions
 
-- **2 spaces** indentation
+- **4 spaces** indentation (same as PHP, matches the Laravel `.editorconfig`)
 - Use **Blade components** (`<x-component />`) over raw HTML for reusable UI
 - Keep logic out of Blade — use `@php` only as a last resort
 - Use `{{ }}` for escaped output, `{!! !!}` only for trusted HTML
