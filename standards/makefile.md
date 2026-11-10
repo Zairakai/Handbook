@@ -75,7 +75,7 @@ test: ## Run unit tests
 
 ### Section headers
 
-Use the `## —— Title ——` pattern (double `##`, em dashes, optional emoji) to create a named section in the help output. This acts as a visual separator — `make help` will display it as a group heading:
+Use the `## —— Title ——` pattern (double `##`, em dashes, optional emoji) to create a named section in the help output. The em dashes are the one exception to the rule of the hyphen only: a run of hyphens is less readable, and the help system matches this pattern. This acts as a visual separator — `make help` will display it as a group heading:
 
 ```makefile
 ## —— 🧪 Testing ——
