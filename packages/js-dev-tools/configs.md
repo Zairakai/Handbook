@@ -287,3 +287,4 @@ The generated and third-party folders are ignored by every tool: ESLint (`ignore
 | `*.min.css` | no | yes | yes | no |
 | `*.min.md` | no | no | no | yes |
 | `*.lock`, `gl-*.json`, `*.md` | no | yes | no | no |
+| `storage/`, `bootstrap/cache/` (Laravel, this package only) | yes | yes | yes | yes |
