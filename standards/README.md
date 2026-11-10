@@ -28,7 +28,7 @@ Adhering to coding standards ensures a consistent and maintainable codebase acro
 | **[PHP][php]** | PSR-12, strict types, naming, PHPStan, Rector, PHPInsights — tout projet PHP. |
 | **[Laravel][laravel]** | Controllers thin, Form Requests, Services, Eloquent, routes — projets Laravel. |
 | **[SCSS / CSS / Blade][scss-css-blade]** | Styling conventions enforced by Prettier and ESLint. |
-| **[Testing][testing]** | PHPUnit, Vitest, BATS — structure, naming, coverage 100%, annotations. |
+| **[Testing][testing]** | PHPUnit, Vitest, BATS — structure, naming, coverage 75% minimum, 90% target, annotations. |
 
 ---
 

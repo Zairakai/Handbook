@@ -6,7 +6,7 @@
 
 ## Coverage Target
 
-The target is **100% line and method coverage** — aiming for it is encouraged across all Zairakai packages.  
+The minimum is **75% coverage** (lines, functions, branches, statements): below it, the build fails. The target is **90%**.  
 The hard rule is: **coverage must not decrease**. A contribution that drops coverage below the current baseline will not be merged.
 
 > Coverage is a **floor**, not a ceiling. Tests must be meaningful, not just coverage-chasing.
