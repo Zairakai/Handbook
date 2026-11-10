@@ -25,7 +25,7 @@ Blade templates follow the same formatting rules as HTML via Prettier.
 ### Formatting Rules (Prettier)
 
 - **2 spaces** for indentation
-- **Double quotes** for strings
+- **Single quotes** for strings
 - **Trailing semicolons** always
 - **Max line length**: 120 characters
 
@@ -76,34 +76,50 @@ All CSS classes follow the **BEM** (Block, Element, Modifier) methodology:
 
 ### Properties Order
 
-Group properties logically:
+The order is enforced by Stylelint (`stylelint-order`), and `--fix` applies it.
+
+- **Inside a block**: custom properties, `$` variables, `@extend`, `@include` without a block, declarations, nested rules, then the other at-rules (`@media`).
+- **Properties**: `content`, positioning, display and layout, box model, typography, visual, transforms and animations, then miscellaneous. A property that is not in the list goes last, in alphabetical order.
 
 ```scss
 .element {
-  // 1. Positioning
+  @include reset;
+
+  // Positioning
   position: absolute;
   top: 0;
   left: 0;
   z-index: 10;
 
-  // 2. Box model
+  // Display and layout
   display: flex;
-  width: 100%;
-  padding: 1rem;
-  margin: 0 auto;
+  gap: 1rem;
 
-  // 3. Typography
+  // Box model
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  border-radius: 0.5rem;
+
+  // Typography
   font-size: 1rem;
   font-weight: 600;
-  color: #333;
 
-  // 4. Visual
+  // Visual
+  color: #333;
   background-color: #fff;
-  border-radius: 0.5rem;
   box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
 
-  // 5. Transitions / animations
+  // Transitions and animations
   transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  @media (width >= 768px) {
+    padding: 2rem;
+  }
 }
 ```
 
@@ -111,7 +127,7 @@ Group properties logically:
 
 ## Blade Conventions
 
-- **4 spaces** indentation (same as PHP, matches the Laravel `.editorconfig`)
+- **2 spaces** indentation (same as HTML)
 - Use **Blade components** (`<x-component />`) over raw HTML for reusable UI
 - Keep logic out of Blade — use `@php` only as a last resort
 - Use `{{ }}` for escaped output, `{!! !!}` only for trusted HTML
@@ -136,7 +152,7 @@ Group properties logically:
 make quality      # Full gate (includes stylelint + prettier check)
 make stylelint    # Run Stylelint on SCSS/CSS files
 make prettier     # Check formatting with Prettier
-make quality-fix  # Fix all auto-fixable issues (ESLint + Prettier)
+make quality-fix  # Fix all auto-fixable issues (ESLint, Prettier, Stylelint, markdownlint)
 ```
 
 ---

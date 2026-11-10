@@ -79,7 +79,7 @@ Full standards by language and tool — see **[Coding Standards][standards]** fo
 | **[PHP][php]** | PSR-12, strict types, naming, PHPStan, Rector, PHPInsights. |
 | **[Laravel][laravel]** | Controllers, Form Requests, Eloquent, routes, Service Providers. |
 | **[SCSS / CSS / Blade][scss-css-blade]** | BEM, Prettier, Stylelint, Blade conventions. |
-| **[Testing][testing]** | PHPUnit, Vitest, BATS — coverage 100%, structure, naming. |
+| **[Testing][testing]** | PHPUnit, Vitest, BATS — coverage 75% minimum, 90% target, structure, naming. |
 
 ---
 

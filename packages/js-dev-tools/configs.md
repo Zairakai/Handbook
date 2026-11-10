@@ -20,13 +20,13 @@ Flat config format (`eslint.config.js`). Exported as `@zairakai/js-dev-tools/esl
 | Base rules | `*` | Custom rules (see below) |
 | TypeScript | `**/*.ts`, `**/*.tsx`, `**/*.vue` | `@typescript-eslint` plugin + parser |
 | Test files | `**/*.test.{js,ts}`, `**/*.spec.{js,ts}`, `**/tests/**/*` | Relaxed `any` + `no-console` |
-| Config files | `**/*.config.{js,ts}`, `**/*rc.{js,ts}` | Relaxed `no-console` + `no-var-requires` |
+| Config files | `**/*.config.{js,ts}`, `**/*rc.{js,ts}` | Relaxed `no-console` + `no-require-imports` |
 
 ### Key rules
 
 | Rule | Value | Rationale |
 | :--- | :--- | :--- |
-| `yoda` | `always` | Enforces yoda comparisons — consistent with PHP side |
+| `yoda` | `never` | No yoda comparisons (ESLint default) |
 | `no-unused-vars` | `error` (ignore `^_` prefix) | Silence with `_varName` when intentional |
 | `no-console` | `warn` — allow `warn`, `error`, `info`, `debug` | Prevent leftover `console.log` |
 | `eqeqeq` | `always` (except `null`) | No loose equality |
@@ -74,22 +74,20 @@ Exported as `@zairakai/js-dev-tools/prettier`. Plugins: `prettier-plugin-blade`,
 | `useTabs` | false |
 | `semi` | false |
 | `singleQuote` | true |
-| `trailingComma` | `es5` |
+| `trailingComma` | `all` |
 | `bracketSpacing` | true |
 | `bracketSameLine` | false |
 | `arrowParens` | `always` |
 | `endOfLine` | `lf` |
-| `vueIndentScriptAndStyle` | true |
+| `vueIndentScriptAndStyle` | false |
+| `jsxSingleQuote` | false |
 
 ### File-specific overrides
 
 | Files | Notable settings |
 | :--- | :--- |
-| `*.vue` | `singleAttributePerLine: true` |
-| `*.scss`, `*.css` | `singleQuote: false`, `semi: false` |
-| `*.blade.php` | `tabWidth: 4`, `phpVersion: '8.3'` |
-| `*.json`, `*.jsonc` | `trailingComma: 'none'` |
-| `*.yml`, `*.yaml` | `singleQuote: false`, `bracketSpacing: false` |
+| `*.blade.php` | `phpVersion: '8.3'`, `trailingCommaPHP: true` |
+| `*.json`, `*.jsonc`, `package.json` | `trailingComma: 'none'` |
 
 ### Extending in a project
 
@@ -104,7 +102,7 @@ export default { ...baseConfig }
 
 ## Stylelint
 
-Exported as `@zairakai/js-dev-tools/stylelint`. Extends `stylelint-config-standard-scss` + `stylelint-config-recommended-vue` + `stylelint-config-html`.
+Exported as `@zairakai/js-dev-tools/stylelint`. Extends `stylelint-config-standard-scss` + `stylelint-config-recommended-vue` + `stylelint-config-html`. Plugins: `stylelint-scss`, `stylelint-order`.
 
 ### Key rules
 
@@ -116,6 +114,8 @@ Exported as `@zairakai/js-dev-tools/stylelint`. Extends `stylelint-config-standa
 | `scss/at-mixin-argumentless-call-parentheses` | `never` |
 | `scss/dollar-variable-pattern` | `^[_a-z0-9\\-]+$` |
 | `scss/selector-no-redundant-nesting-selector` | true |
+| `order/order` | custom properties, `$` variables, `@extend`, `@include` (no block), declarations, nested rules, other at-rules |
+| `order/properties-order` | 7 groups: positioning, display and layout, box model, typography, visual, transforms and animations, miscellaneous (`content` first); unlisted properties last, alphabetical |
 
 ### Extending in a project
 
@@ -143,12 +143,12 @@ Exported as `@zairakai/js-dev-tools/vitest`. Base config — consumer projects e
 ```javascript
 {
   test: {
-    globals: true,
     environment: 'node',
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov', 'html', 'cobertura'],
-      reportsDirectory: 'build/coverage',
+      thresholds: { lines: 75, functions: 75, branches: 75, statements: 75 },
+      watermarks: { lines: [75, 90], functions: [75, 90], branches: [75, 90], statements: [75, 90] },
       exclude: ['node_modules/**', 'dist/**', 'build/**', '**/*.config.*', '**/*.d.ts'],
     },
   },
@@ -212,7 +212,6 @@ Base TypeScript config. Published to `tsconfig.json` via `--publish=typescript`.
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "lib": ["ES2022"],
     "strict": true,
     "declaration": true,
     "declarationMap": true,
@@ -269,3 +268,22 @@ Published to `config/dev-tools/.markdownlint.json` via `--publish=style`. A root
 [handbook]: ../../README.md
 [packages]: ../README.md
 [pkg]: ./README.md
+
+---
+
+## Ignore lists
+
+The generated and third-party folders are ignored by every tool: ESLint (`ignores` in `eslint.config.js`), Prettier (`.prettierignore`), Stylelint (`.stylelintignore`) and markdownlint (`.markdownlintignore`). The ESLint ignore list also reads `.gitignore`.
+
+| Path | ESLint | Prettier | Stylelint | markdownlint |
+| :--- | :---: | :---: | :---: | :---: |
+| `node_modules/`, `vendor/` | yes | yes | yes | yes |
+| `build/`, `coverage/`, `dist/` | yes | yes | yes | yes |
+| `docs/` (VitePress site) | yes | yes | yes | yes |
+| `public/` | yes | yes | yes | no |
+| `.nuxt/`, `.output/`, `storybook-static/` | yes | yes | `.nuxt/`, `.output/` | no |
+| `.cache/`, `.git/` | no | no | no | yes |
+| `*.min.js` | yes | yes | no | no |
+| `*.min.css` | no | yes | yes | no |
+| `*.min.md` | no | no | no | yes |
+| `*.lock`, `gl-*.json`, `*.md` | no | yes | no | no |
