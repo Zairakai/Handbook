@@ -198,7 +198,15 @@ export default {
 }
 ```
 
-> Always spread `ignoreDependencies` and `ignoreBinaries` — numeric-keyed arrays do not deep-merge.
+> Always spread `ignoreDependencies` and `ignoreBinaries` - numeric-keyed arrays do not deep-merge.
+
+### What the base ignores
+
+`ignoreDependencies` lists `@vitest/coverage-v8` (the Vitest config names the provider as a text, `provider: 'v8'`, and Knip cannot link it to the package), `zod` and `sort-package-json`. `ignoreBinaries` lists `make`.
+
+Knip may print the hint `Remove @vitest/coverage-v8 from ignoreDependencies` in the repository of the package itself. It is a hint, not an error: the entry stays, because the projects inherit the list.
+
+The repository of the package has its own `knip.config.js` at its root, which is not published. It extends `config/knip.config.js` and adds the tools that the shell scripts of the package run (`eslint`, `prettier`, `stylelint`, `markdownlint-cli2`), which Knip does not read.
 
 ---
 
@@ -287,3 +295,4 @@ The generated and third-party folders are ignored by every tool: ESLint (`ignore
 | `*.min.css` | no | yes | yes | no |
 | `*.min.md` | no | no | no | yes |
 | `*.lock`, `gl-*.json`, `*.md` | no | yes | no | no |
+| `storage/`, `bootstrap/cache/` (Laravel, this package only) | yes | yes | yes | yes |
