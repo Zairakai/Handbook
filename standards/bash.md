@@ -52,7 +52,7 @@ source "${SCRIPT_DIR}/config.sh"
 
 ### Comments and Indentation
 
-- Use **4 spaces** for indentation (2 is acceptable for short scripts)
+- Use **2 spaces** for indentation, never tabs (Google Shell Style Guide)
 - Comment complex logic, not obvious commands
 
 ### ShellCheck
@@ -81,9 +81,9 @@ make shellcheck
 
 ```bash
 if [[ -f "composer.json" ]]; then
-    echo "composer.json exists."
+  echo "composer.json exists."
 else
-    echo "composer.json is missing."
+  echo "composer.json is missing."
 fi
 ```
 
@@ -91,11 +91,11 @@ fi
 
 ```bash
 if [[ -f "composer.json" ]]; then
-    echo "composer.json found."
+  echo "composer.json found."
 elif [[ -f "composer.lock" ]]; then
-    echo "composer.lock found."
+  echo "composer.lock found."
 else
-    echo "No composer files found."
+  echo "No composer files found."
 fi
 ```
 
@@ -103,7 +103,7 @@ fi
 
 ```bash
 for file in *.sh; do
-    shellcheck "$file"
+  shellcheck "$file"
 done
 ```
 
@@ -112,8 +112,8 @@ done
 ```bash
 counter=1
 while [[ $counter -le 5 ]]; do
-    echo "Step $counter"
-    ((counter++))
+  echo "Step $counter"
+  ((counter++))
 done
 ```
 
@@ -125,7 +125,7 @@ done
 
 ```bash
 if [[ -n "$VAR" ]]; then
-    echo "VAR is set: $VAR"
+  echo "VAR is set: $VAR"
 fi
 ```
 
@@ -133,7 +133,7 @@ fi
 
 ```bash
 if [[ -z "$VAR" ]]; then
-    echo "VAR is empty or unset."
+  echo "VAR is empty or unset."
 fi
 ```
 
@@ -141,7 +141,7 @@ fi
 
 ```bash
 if [[ "$FORCE" == "true" ]]; then
-    echo "Force mode enabled."
+  echo "Force mode enabled."
 fi
 ```
 
@@ -149,7 +149,7 @@ fi
 
 ```bash
 if [[ "$VAR" =~ ^[0-9]+$ ]]; then
-    echo "VAR is a positive integer."
+  echo "VAR is a positive integer."
 fi
 ```
 
@@ -160,17 +160,17 @@ fi
 ```bash
 # File exists
 if [[ -f "composer.json" ]]; then
-    echo "File exists."
+  echo "File exists."
 fi
 
 # Directory exists
 if [[ -d "vendor" ]]; then
-    echo "Directory exists."
+  echo "Directory exists."
 fi
 
 # File is executable
 if [[ -x "./scripts/setup.sh" ]]; then
-    echo "Script is executable."
+  echo "Script is executable."
 fi
 ```
 
