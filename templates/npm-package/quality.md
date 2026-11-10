@@ -25,7 +25,7 @@ make quality        # markdownlint + shellcheck + eslint + prettier + stylelint 
 make quality-fast   # eslint + prettier + markdownlint (fast CI check)
 make quality-fix    # eslint-fix + prettier-fix + stylelint-fix + markdownlint-fix
 make test           # Vitest (no coverage)
-make test-coverage  # Vitest with coverage → build/coverage/
+make test-coverage  # Vitest with coverage → coverage/
 make test-ci        # Vitest strict CI mode
 make typecheck      # tsc --noEmit
 make build          # tsup dual build → dist/

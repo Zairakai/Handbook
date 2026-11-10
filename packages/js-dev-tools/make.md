@@ -80,7 +80,7 @@ In full-stack PHP + JS projects, these targets are composed into `fullstack.mk` 
 | Target | Description |
 | :--- | :--- |
 | `make test` | Vitest (no coverage) |
-| `make test-coverage` | Vitest with coverage in `build/coverage/` |
+| `make test-coverage` | Vitest with coverage in `coverage/` |
 | `make test-watch` | Vitest watch mode (interactive) |
 | `make test-ci` | Vitest strict CI mode (strict + coverage) |
 
