@@ -1,0 +1,44 @@
+# JetBrains (PhpStorm, WebStorm)
+# ----------------
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+
+# Visual Studio Code and derivatives
+# ----------------
+.vscode/
+.history/
+
+# Other editors
+# ----------------
+.fleet/
+.zed/
+.vs/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+nbproject/
+*.swp
+*.swo
+*~
+
+# AI assistants
+# ----------------
+# Local state only, shared instructions (AGENTS.md, CLAUDE.md, GEMINI.md) stay committed
+.claude/settings.local.json
+CLAUDE.local.md
+.aider*
+.cursor/
+.windsurf/
+.continue/
+.codex/
+.gemini/
+
+# Operating system
+# ----------------
+.DS_Store
+Thumbs.db

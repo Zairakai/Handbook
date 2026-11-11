@@ -96,14 +96,66 @@ PSR-4 strict. `src/` for production code, `tests/` for test code only.
 ## .gitignore
 
 ```text
+# JetBrains (PhpStorm, WebStorm)
+# ----------------
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+
+# Visual Studio Code and derivatives
+# ----------------
+.vscode/
+.history/
+
+# Other editors
+# ----------------
+.fleet/
+.zed/
+.vs/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+nbproject/
+*.swp
+*.swo
+*~
+
+# AI assistants
+# ----------------
+# Local state only, shared instructions (AGENTS.md, CLAUDE.md, GEMINI.md) stay committed
+.claude/settings.local.json
+CLAUDE.local.md
+.aider*
+.cursor/
+.windsurf/
+.continue/
+.codex/
+.gemini/
+
+# Dependencies
+# ----------------
 /vendor
 /node_modules
+
+# Build output
+# ----------------
 /build
+
+# Laravel runtime
+# ----------------
 /storage
+
+# Tests and coverage
+# ----------------
 .phpunit.cache
 .phpunit.result.cache
-.idea/
-.vscode/
+
+# Logs
+# ----------------
 *.log
 ```
 

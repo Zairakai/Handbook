@@ -133,13 +133,63 @@ BATS tests target shell scripts in `scripts/` if the package has any.
 ## .gitignore
 
 ```text
-/node_modules
-/dist
-/docs          ← TypeDoc output
-/coverage
-npm-debug.log*
+# JetBrains (PhpStorm, WebStorm)
+# ----------------
 .idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+
+# Visual Studio Code and derivatives
+# ----------------
 .vscode/
+.history/
+
+# Other editors
+# ----------------
+.fleet/
+.zed/
+.vs/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+nbproject/
+*.swp
+*.swo
+*~
+
+# AI assistants
+# ----------------
+# Local state only, shared instructions (AGENTS.md, CLAUDE.md, GEMINI.md) stay committed
+.claude/settings.local.json
+CLAUDE.local.md
+.aider*
+.cursor/
+.windsurf/
+.continue/
+.codex/
+.gemini/
+
+# Dependencies
+# ----------------
+/node_modules
+
+# Build output
+# ----------------
+/dist
+# TypeDoc output
+/docs
+
+# Tests and coverage
+# ----------------
+/coverage
+
+# Logs
+# ----------------
+npm-debug.log*
 ```
 
 `config/dev-tools/` is NOT ignored — published configs are committed and versioned.

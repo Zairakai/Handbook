@@ -22,7 +22,9 @@ Adhering to coding standards ensures a consistent and maintainable codebase acro
 | Standard | Description |
 | :--- | :--- |
 | **[Bash][bash]** | Writing maintainable shell scripts: shebang, variables, control structures, testing. |
+| **[Editor Integration][editor-integration]** | Run `make quality` before committing, optional editor setup, and what a repository does not publish. |
 | **[EditorConfig][editorconfig]** | Cross-editor formatting rules for indentation, line endings, and charset. |
+| **[Gitignore][gitignore]** | What to ignore, how to write and comment the file, and the standard block for editors, IDEs and AI assistants. |
 | **[JavaScript / Vue.js][javascript-vue]** | Component structure, Pinia stores, ESLint, Prettier, Vite best practices. |
 | **[Makefile][makefile]** | Syntax, variables, phony targets, and best practices for the unified Make system. |
 | **[PHP][php]** | PSR-12, strict types, naming, PHPStan, Rector, PHPInsights — tout projet PHP. |
@@ -49,7 +51,9 @@ The CI pipeline enforces all standards automatically — no merge without a gree
 
 [handbook]: ../README.md
 [bash]: ./bash.md
+[editor-integration]: ./editor-integration.md
 [editorconfig]: ./editorconfig.md
+[gitignore]: ./gitignore.md
 [javascript-vue]: ./javascript-vue.md
 [makefile]: ./makefile.md
 [php]: ./php.md
