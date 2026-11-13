@@ -24,7 +24,6 @@ The `.gitignore` of a repository lists what Git must never track. Keep it short,
 
 - The lock files (`package-lock.json`, `composer.lock`): they make the installs reproducible.
 - `config/dev-tools/`: the published configuration is committed and versioned.
-- The shared instructions for AI assistants (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`): they are documentation for the contributors.
 
 ---
 
@@ -83,9 +82,12 @@ nbproject/
 
 # AI assistants
 # ----------------
-# Local state only, shared instructions (AGENTS.md, CLAUDE.md, GEMINI.md) stay committed
+# Personal instruction files: not published (the KB repositories force them with exceptions)
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+*.local.md
 .claude/settings.local.json
-CLAUDE.local.md
 .aider*
 .cursor/
 .windsurf/
@@ -96,13 +98,14 @@ CLAUDE.local.md
 
 Notes:
 
-- `.claude/settings.local.json` and `CLAUDE.local.md` are the **local** files of Claude Code. The shared project files of the same tool (`CLAUDE.md`, `.claude/settings.json`) stay committed.
-- The AI folders of the other tools (`.cursor/`, `.windsurf/`, `.continue/`, `.codex/`, `.gemini/`) are ignored as a whole. If a project decides to share rules from one of them, it removes that line and says so in its README.
+- **The instruction files of the AI assistants are personal.** `AGENTS.md`, `CLAUDE.md` and `GEMINI.md` are ignored, so that a contributor does not publish them by mistake. A personal file that a tool reads next to the shared one goes in a `*.local.md` file (`CLAUDE.local.md` is read by Claude Code); the pattern ignores it.
+- `.claude/settings.local.json` is the local settings file of Claude Code. The AI folders of the other tools (`.cursor/`, `.windsurf/`, `.continue/`, `.codex/`, `.gemini/`) are ignored as a whole.
+- **Exception: the knowledge-base repositories.** They version these files on purpose, because the files are useful there. Such a repository adds `!` exceptions after the standard block (`!AGENTS.md`, `!CLAUDE.md`, `!GEMINI.md`) and says why in a comment.
 - The block is complete in every repository. A pattern the repository already had (for example `/.idea`) is moved into the block, never repeated.
 
 ### Your own global ignore file
 
-A contributor who uses a tool that is not in the block can ignore its files for all repositories with a global file, without touching the repository:
+A contributor can ignore these files for all repositories with a global file, without touching the repository. The AI instruction files and `*.local.md` belong in it too:
 
 ```bash
 git config --global core.excludesFile ~/.config/git/ignore
