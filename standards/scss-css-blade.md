@@ -27,7 +27,7 @@ Blade templates follow the same formatting rules as HTML via Prettier.
 - **2 spaces** for indentation
 - **Single quotes** for strings
 - **Trailing semicolons** always
-- **Max line length**: 120 characters
+- **Max line length**: none (Google HTML/CSS Style Guide: no column limit); Prettier wraps at its default of 80
 
 ### BEM Naming
 
