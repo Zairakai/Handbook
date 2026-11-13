@@ -33,7 +33,7 @@ Rules and processes — see **[Policies][policies]** for the overview.
 | Policy | Description |
 | :--- | :--- |
 | **[Git Rules][git-rules]** | Commit format, branching strategy, breaking changes, and ticket requirements. |
-| **[Pull Requests][pull-requests]** | Request title and description, merge order, back-merge, checks. |
+| **[Pull Requests][pull-requests]** | Request title and description, merge order, checks. |
 | **[CI Pipelines][ci-pipelines]** | Quality gate, segmentation, images, versions from tags, secrets. |
 | **[Versioning][versioning]** | SemVer, release process, git tags, Packagist/NPM publishing. |
 | **[Dependency Management][dependency-management]** | How to update PHP and JS dependencies safely. |

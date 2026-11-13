@@ -82,7 +82,7 @@ Closes #310
 | **Merge commits only** | Never squash: the history of each branch stays readable. |
 | **Feature and fix branches** | Merged into `develop`, one at a time, each with a green pipeline. |
 | **Release** | One request `develop` → `main` once the whole batch is done. |
-| **Back-merge** | After a release, `main` is merged back into `develop`. |
+| **`main` into `develop`** | Never. A release brings `develop` into `main`, and `main` stays one merge commit ahead: that gap is normal. |
 | **Who merges** | The maintainer. A contributor, human or tool, does not merge without an explicit agreement for that request. |
 
 ### Several Branches at Once
@@ -95,9 +95,9 @@ fix/#87-null-payment-response   ─┼─▶ develop   (one request each, green 
 feature/#51-export-csv          ─┘
                                      │
                                      └─▶ main   (one release request, batch complete)
-                                           │
-                                           └─▶ develop   (back-merge after the release)
 ```
+
+The flow goes one way. `main` is never merged back into `develop`: after a release, `main` only has the merge commit of the release request that `develop` does not, and `develop` keeps its own history. The next release request carries those commits again without conflict, so there is nothing to bring back. A tool or a person who sees `develop` behind `main` by merge commits does not open a request to fix it.
 
 ### Closing Tickets
 
