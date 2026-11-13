@@ -225,9 +225,10 @@ Internal config. Uses `tests/Unit` + `tests/Integration` with `src/` as source.
   "default": true,
   "MD013": false,
   "MD024": { "siblings_only": true },
-  "MD033": { "allowed_elements": ["details", "summary", "kbd", "br"] },
+  "MD033": { "allowed_elements": ["details", "summary", "kbd", "br", "img", "a", "p"] },
   "MD040": false,
-  "MD041": false
+  "MD041": false,
+  "MD060": { "style": "compact" }
 }
 ```
 

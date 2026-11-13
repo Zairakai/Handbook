@@ -18,9 +18,9 @@ To maintain a clean, searchable, and automatable history, all Zairakai projects 
 <footer>
 ```
 
-- **First line**: max **72 characters** — this is the commit summary visible in logs
+- **Subject**: max **50 characters** of text after `type(scope): #TICKET ` (Pro Git: "no more than about 50"; the type, the scope and the ticket do not count), the commit summary visible in logs
 - **Second line**: always **blank** — separates subject from body
-- **Body and footer**: lines wrapped at **80 characters**
+- **Body and footer**: lines wrapped at **72 characters** (Pro Git: "about 72")
 - **type** and **scope**: always lowercase
 
 ### Subject Line

@@ -136,7 +136,7 @@ The `commit-msg` hook enforces:
 
 | Allowed types | `feat` `fix` `refactor` `test` `docs` `chore` `ci` `perf` `build` `style` |
 | :--- | :--- |
-| First line max | 72 characters |
+| Subject max (after type, scope and ticket) | 50 characters |
 | Description min | 10 characters |
 | WIP commits | bypass validation automatically |
 
