@@ -111,7 +111,7 @@ The base config (`tsconfig.base.json`) enforces:
 - `noUnusedLocals` + `noUnusedParameters`
 - `exactOptionalPropertyTypes`
 - `moduleResolution: bundler`
-- Target: `ES2022`
+- Target: `ES2025`
 
 ---
 

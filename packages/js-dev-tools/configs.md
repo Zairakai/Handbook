@@ -69,7 +69,7 @@ Exported as `@zairakai/js-dev-tools/prettier`. Plugins: `prettier-plugin-blade`,
 
 | Option | Value |
 | :--- | :--- |
-| `printWidth` | 120 |
+| `printWidth` | 80 (the default of Prettier, so it is not written in the configuration) |
 | `tabWidth` | 2 |
 | `useTabs` | false |
 | `semi` | false |
@@ -114,8 +114,33 @@ Exported as `@zairakai/js-dev-tools/stylelint`. Extends `stylelint-config-standa
 | `scss/at-mixin-argumentless-call-parentheses` | `never` |
 | `scss/dollar-variable-pattern` | `^[_a-z0-9\\-]+$` |
 | `scss/selector-no-redundant-nesting-selector` | true |
-| `order/order` | custom properties, `$` variables, `@extend`, `@include` (no block), declarations, nested rules, other at-rules |
-| `order/properties-order` | 7 groups: positioning, display and layout, box model, typography, visual, transforms and animations, miscellaneous (`content` first); unlisted properties last, alphabetical |
+| `order/order` | `$` variables, then `@extend`, then `@include` (no block); the rest keeps the order of the author (a control directive such as `@if` sets variables and emits declarations in place, and a custom property can override what a mixin emits, so moving them changes the CSS) |
+| `order/properties-order` | `all`, content, positioning, layout, box model, typography, visual, transforms and animations, miscellaneous; unlisted properties last, alphabetical. A vendor-prefixed property is placed like its unprefixed one |
+
+### Order of the sides
+
+The sides follow the CSS shorthands: **top, right, bottom, left** (clockwise). The logical properties come after, **block before inline** and **start before end**, each shorthand before its longhands: `margin`, `margin-top`, `margin-right`, `margin-bottom`, `margin-left`, `margin-block`, `margin-block-start`, `margin-block-end`, `margin-inline`, `margin-inline-start`, `margin-inline-end`. `padding`, `inset` and `border` (with the width, style and color of each side) work the same way. The sizes keep `inline-size` before `block-size`, like `width` before `height`.
+
+### Changing the order in a project
+
+The base exports `createStylelintConfig`, `propertyGroups`, `propertiesOrder` and `blockOrder`. Each option of `createStylelintConfig` is a function that receives a copy of the list and returns the new one, so that a project can add, remove or move anything. `rules` is merged over the rules of the base.
+
+```javascript
+// stylelint.config.js
+import { createStylelintConfig } from '@zairakai/js-dev-tools/stylelint'
+
+export default createStylelintConfig({
+  properties: (list) => {
+    // add a property after another
+    list.splice(list.indexOf('cursor') + 1, 0, 'my-property')
+
+    // remove one
+    return list.filter((property) => property !== 'float')
+  },
+  // blocks: (list) => list,
+  rules: { 'color-named': 'never' },
+})
+```
 
 ### Extending in a project
 
@@ -212,38 +237,65 @@ The repository of the package has its own `knip.config.js` at its root, which is
 
 ## tsconfig.base.json
 
-Base TypeScript config. Published to `tsconfig.json` via `--publish=typescript`.
+Base TypeScript config of `@stanislas-poisson/js-dev-tools` (`config/tsconfig.base.json`), re-exported by `@zairakai/js-dev-tools`. It is written for TypeScript 6 and for **the web** (code that a bundler processes), not for Node.js. A project extends it through a thin `tsconfig.json`:
 
 ```json
 {
+  "extends": "@zairakai/js-dev-tools/tsconfig"
+}
+```
+
+The base:
+
+```json
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2025",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "moduleDetection": "force",
     "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noUncheckedSideEffectImports": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "exactOptionalPropertyTypes": true,
-    "ignoreDeprecations": "5.0"
+    "skipLibCheck": true
   }
 }
 ```
 
-Projects extend it and add their `paths` + `include`:
+| Option | Value | Reason |
+| :--- | :--- | :--- |
+| `target` | `ES2025` | The default of TypeScript 6 is the most recent version it supports, a floating target (`es2025` today). The base writes it as a fixed value so that it does not change on its own. |
+| `module`, `moduleResolution` | `ESNext`, `bundler` | The TypeScript documentation recommends `esnext` or `preserve` for code that will be bundled (`nodenext` is for Node.js projects). |
+| `moduleDetection` | `force` | Every file is a module, as in the `tsc --init` template of TypeScript 6. |
+| `strict`, `exactOptionalPropertyTypes`, `noUncheckedIndexedAccess`, `noUncheckedSideEffectImports` | `true` | The checks of the `tsc --init` template of TypeScript 6. `strict` and `noUncheckedSideEffectImports` are defaults since TypeScript 6 and stay written. |
+| `isolatedModules`, `verbatimModuleSyntax` | `true` | The `tsc --init` template; a bundler transpiles file by file, and a type must be imported with `import type`. |
+| `noUnusedLocals`, `noUnusedParameters` | `true` | As in the `strictest` base of `tsconfig/bases`. |
+| `declaration`, `declarationMap`, `sourceMap` | `true` | The `tsc --init` template; the packages publish their types. |
+| `skipLibCheck` | `true` | The `tsc --init` template. |
+
+Not written, because TypeScript 6 already does it: `esModuleInterop` (it can no longer be `false`) and `forceConsistentCasingInFileNames` (`true` by default). `lib` is not written either: the libraries follow the target and include the DOM. `types` is not written: its default is `[]` since TypeScript 6, so no Node.js global (`process`, `Buffer`) is known, which is right for code that runs in a browser.
+
+What a project adds, if it needs it:
+
+- `"types": ["node"]` (and `@types/node`) in the configuration of its **tools** (tests, scripts), never in the code of the package.
+- `paths`, **without `baseUrl`**: `baseUrl` is deprecated in TypeScript 6 (error `TS5101`) and `paths` are resolved from the `tsconfig.json` without it.
+- `include`, `outDir` and `rootDir`: the default `rootDir` is the folder of the `tsconfig.json` since TypeScript 6.
 
 ```json
 {
-  "extends": "@zairakai/js-dev-tools/config/tsconfig.base.json",
+  "extends": "@zairakai/js-dev-tools/tsconfig",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["resources/js/*"]
+      "@/*": ["./resources/js/*"]
     }
   },
   "include": ["resources/js/**/*", "tests/js/**/*"]
@@ -261,9 +313,10 @@ Projects extend it and add their `paths` + `include`:
   "default": true,
   "MD013": false,
   "MD024": { "siblings_only": true },
-  "MD033": { "allowed_elements": ["details", "summary", "kbd", "br"] },
+  "MD033": { "allowed_elements": ["details", "summary", "kbd", "br", "img", "a", "p"] },
   "MD040": false,
-  "MD041": false
+  "MD041": false,
+  "MD060": { "style": "compact" }
 }
 ```
 

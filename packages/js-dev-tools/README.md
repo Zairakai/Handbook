@@ -20,7 +20,7 @@ The ESLint, Prettier, Stylelint, Vitest, TypeScript and markdownlint configurati
 | **Formatting** | Prettier (JS, TS, Vue, SCSS, JSON, YAML, Blade, PHP) |
 | **CSS/SCSS** | Stylelint (standard-scss + vue + html) |
 | **Dead code** | Knip (unused exports, files, dependencies) |
-| **TypeScript** | `tsconfig.base.json` (strict, ES2022, ESNext modules) |
+| **TypeScript** | `tsconfig.base.json` (strict, ES2025, ESNext modules) |
 | **Testing** | Vitest (v8 coverage, jsdom or node) |
 | **Documentation** | Markdownlint |
 | **Shell scripts** | ShellCheck (100% compliance) |
@@ -88,8 +88,8 @@ import baseConfig from '@zairakai/js-dev-tools/prettier'
 import baseConfig from '@zairakai/js-dev-tools/stylelint'
 import baseConfig from '@zairakai/js-dev-tools/vitest'
 import baseConfig from '@zairakai/js-dev-tools/knip'
-// tsconfig.base.json
-// "extends": "@zairakai/js-dev-tools/config/tsconfig.base.json"
+// tsconfig.json
+// "extends": "@zairakai/js-dev-tools/tsconfig"
 ```
 
 ---

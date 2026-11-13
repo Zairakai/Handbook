@@ -126,9 +126,12 @@ nbproject/
 
 # AI assistants
 # ----------------
-# Local state only, shared instructions (AGENTS.md, CLAUDE.md, GEMINI.md) stay committed
+# Personal instruction files: not published (the KB repositories force them with exceptions)
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+*.local.md
 .claude/settings.local.json
-CLAUDE.local.md
 .aider*
 .cursor/
 .windsurf/

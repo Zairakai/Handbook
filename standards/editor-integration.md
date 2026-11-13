@@ -36,9 +36,18 @@ These files are committed in the repository. Editors and extensions that find th
 | File | Used by | Role |
 | :--- | :--- | :--- |
 | `.editorconfig` | VS Code (extension), JetBrains IDEs, Vim, and most editors | Indentation, line endings, charset. See [EditorConfig][editorconfig-standard]. |
+| `.gitattributes` | Git | Line endings, Markdown diffs, binary files. |
+| `eslint.config.mjs`, `prettier.config.mjs`, `stylelint.config.mjs` | ESLint, Prettier and Stylelint extensions | Thin files: they re-export `config/dev-tools/<tool>.config.js`. |
+| `vitest.config.mjs` | Vitest extension | Thin file, same role. Not created when the project has a `vite.config.*`, which Vitest reads. |
 | `.markdownlint.json` | markdownlint extension | Extends `config/dev-tools/.markdownlint.json`. |
+| `.prettierignore`, `.stylelintignore`, `.markdownlintignore` | The same extensions | Copies of the files of `config/dev-tools/`. |
 
-**Why a root file that extends `config/dev-tools/`.** The shared configuration is published in `config/dev-tools/` and the `make` targets read it from there. Editor extensions only look for the standard file names at the root of the repository, in the folder of the file you edit and its parents. They never look into `config/dev-tools/`. The root file is a one-line bridge: it holds no rule of its own and extends the published one.
+**Why root files.** The shared configuration is published in `config/dev-tools/` and the `make` targets read it from there. Editor extensions only look for the standard file names at the root of the repository, in the folder of the file you edit and its parents. They never look into `config/dev-tools/`. A thin file holds no rule of its own: it re-exports or extends the published one.
+
+```js
+// eslint.config.mjs
+export { default } from './config/dev-tools/eslint.config.js'
+```
 
 ```json
 {
@@ -46,18 +55,42 @@ These files are committed in the repository. Editors and extensions that find th
 }
 ```
 
-Other tools (ESLint, Prettier, stylelint, Pint) can use the same bridge, if you want their extension to follow the shared rules: a root file that re-exports or includes the file of `config/dev-tools/`. This is not published by default. The `dev-tools` packages do not create these files for you (except the ones in the table above), so every contributor decides.
+An ignore file cannot extend another file, and npm does not publish symbolic links: the root gets a copy. The `js-dev-tools` package creates these files on install (`npm run setup`, or the `postinstall`) when the project has no config of that tool yet, and refresh them with `--force`. A project that edits a file of `config/dev-tools/` keeps the thin file as it is: it follows.
 
 ---
 
 ## Set up your editor (optional)
 
-Each contributor sets up the editor in their own environment, repository by repository. The repository does not publish editor settings (see the next section), and the two `dev-tools` packages do not impose any.
+Each contributor sets up the editor in their own environment, repository by repository. The repository does not publish editor settings (see the next section), and the `dev-tools` packages do not impose any.
 
 ### VS Code
 
-1. Install the extension of the tool you want (for example `davidanson.vscode-markdownlint`, `dbaeumer.vscode-eslint`, `esbenp.prettier-vscode`). The extension uses the version installed in the project (`node_modules` or `vendor`) and the file found at the root.
-2. To run the commands from the editor, add a task to your own settings (user `tasks.json`, or your workspace file). The example runs `make quality` at the root of the Git repository of the file you have open:
+1. Install the extension of the tool you want (for example `davidanson.vscode-markdownlint`, `dbaeumer.vscode-eslint`, `esbenp.prettier-vscode`, `stylelint.vscode-stylelint`, `editorconfig.editorconfig`). The extension uses the version installed in the project (`node_modules` or `vendor`) and the file found at the root.
+1. To format and fix on save, add the settings below to your user settings or to your profile. The corrections run on a manual save only (`explicit`), not on the autosave, and Prettier formats afterwards. Markdown keeps its trailing double spaces, which are line breaks.
+
+```jsonc
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit",
+    "source.fixAll.markdownlint": "explicit"
+  },
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[scss]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[markdown]": {
+    "editor.formatOnSave": false,
+    "files.trimTrailingWhitespace": false
+  }
+}
+```
+
+The `.editorconfig` already carries the indentation, the line endings and the final newline: the `editorconfig.editorconfig` extension applies them, so do not repeat them in your settings. Official documentation: [VS Code settings][vscode-settings].
+
+1. To run the commands from the editor, add a task to your own settings (user `tasks.json`, or your workspace file). The example runs `make quality` at the root of the Git repository of the file you have open:
 
 ```json
 {
@@ -98,4 +131,5 @@ Personal editor and AI assistant files are ignored in every repository: they hol
 [editorconfig-standard]: ./editorconfig.md
 [gitignore]: ./gitignore.md
 [vscode-tasks]: https://code.visualstudio.com/docs/debugtest/tasks
+[vscode-settings]: https://code.visualstudio.com/docs/configure/settings
 [jetbrains-external-tools]: https://www.jetbrains.com/help/phpstorm/configuring-third-party-tools.html

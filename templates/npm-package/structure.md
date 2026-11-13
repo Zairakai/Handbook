@@ -8,16 +8,20 @@
 
 ```text
 npm-package/
+├── .editorconfig            ← the standard of the handbook (copied by the setup)
+├── .gitattributes           ← LF, Markdown diffs, binary files
+├── .gitignore               ← standard blocks, see the gitignore standard
 ├── .gitlab-ci.yml           ← includes js-dev-tools shared pipeline
-├── .gitignore               ← /node_modules /dist /docs /coverage
+├── .npmrc                   ← engine-strict=true, audit-level=high
+├── assets/                  ← banner.svg/png (1280x640) and icon.svg/png (512x512, transparent)
 ├── CODE_OF_CONDUCT.md       ← references global handbook
 ├── CONTRIBUTING.md          ← references global handbook, dev workflow table
 ├── LICENSE                  ← MIT
 ├── Makefile                 ← delegates to js-dev-tools/tools/make/core.mk
-├── README.md                ← badges + requirements + install + usage
+├── README.md                ← banner + badges + install + usage
 ├── SECURITY.md              ← references global handbook
 ├── package.json             ← version always 0.0.0 (CI manages)
-├── tsconfig.json            ← extends config/dev-tools/tsconfig.json
+├── tsconfig.json            ← extends @zairakai/js-dev-tools tsconfig base (published by the setup)
 ├── src/
 │   └── index.ts             ← package entry point (export {})
 └── tests/
@@ -27,19 +31,28 @@ npm-package/
         └── .gitkeep         ← Vitest unit tests (add *.test.ts here)
 ```
 
-After `npm install`, `postinstall` populates `config/dev-tools/`:
+After `npm install`, `postinstall` populates `config/dev-tools/` and the root. The files of the root exist for the editors and their extensions, which look for the configuration of a tool at the root of the project and never in `config/dev-tools/` (see [Editor integration][editor-integration]). They are committed, like the rest:
 
 ```text
 config/
 └── dev-tools/
-    ├── eslint.config.js     ← extends @zairakai/js-dev-tools/eslint
+    ├── eslint.config.js     ← the project rules, extends @zairakai/js-dev-tools/eslint
     ├── prettier.config.js   ← extends @zairakai/js-dev-tools/prettier
-    ├── knip.config.js       ← extends @zairakai/js-dev-tools/knip
+    ├── stylelint.config.js  ← extends @zairakai/js-dev-tools/stylelint
+    ├── knip.config.js       ← dead code and unused dependencies
     ├── vitest.config.js     ← extends @zairakai/js-dev-tools/vitest
-    ├── tsconfig.json        ← extends @zairakai/js-dev-tools tsconfig.base
     ├── .markdownlint.json   ← markdownlint rules
-    └── .markdownlintignore
-.markdownlint.json           ← root file extending config/dev-tools/ (IDE support)
+    ├── .markdownlintignore
+    ├── .prettierignore
+    └── .stylelintignore
+eslint.config.mjs            ← thin file: re-exports config/dev-tools/eslint.config.js
+prettier.config.mjs          ← thin file: re-exports config/dev-tools/prettier.config.js
+stylelint.config.mjs         ← thin file: re-exports config/dev-tools/stylelint.config.js
+vitest.config.mjs            ← thin file: re-exports config/dev-tools/vitest.config.js (none when there is a vite.config.*)
+.markdownlint.json           ← extends config/dev-tools/.markdownlint.json
+.markdownlintignore          ← copy of config/dev-tools/.markdownlintignore (an ignore file cannot extend another)
+.prettierignore              ← copy, same reason
+.stylelintignore             ← copy, same reason
 ```
 
 ---
@@ -59,17 +72,12 @@ Two variables, one include. All targets come from `core.mk`. Nothing else.
 
 ## tsconfig.json
 
-```json
-{
-  "extends": "./config/dev-tools/tsconfig.json"
-}
-```
-
-The root `tsconfig.json` is a thin wrapper. The real config is in `config/dev-tools/tsconfig.json` (published by `js-dev-tools`), which itself extends `@zairakai/js-dev-tools/config/tsconfig.base.json`:
+The setup publishes `tsconfig.json` at the root of the project (a TypeScript server looks for it there): it extends `@zairakai/js-dev-tools/tsconfig`, the base that the package exports.
 
 ```json
 {
-  "extends": "@zairakai/js-dev-tools/config/tsconfig.base.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@zairakai/js-dev-tools/tsconfig",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src"
@@ -79,19 +87,18 @@ The root `tsconfig.json` is a thin wrapper. The real config is in `config/dev-to
 }
 ```
 
-Key options inherited from `tsconfig.base.json`:
+Key options inherited from the base:
 
 | Option | Value |
 | :--- | :--- |
-| `target` | `ES2022` |
-| `module` | `ESNext` |
-| `moduleResolution` | `bundler` |
-| `strict` | `true` |
-| `noUnusedLocals` | `true` |
-| `noUnusedParameters` | `true` |
-| `exactOptionalPropertyTypes` | `true` |
-| `declaration` + `declarationMap` | `true` |
-| `sourceMap` | `true` |
+| `target` | `ES2025` |
+| `module`, `moduleResolution` | `ESNext`, `bundler` |
+| `strict`, `exactOptionalPropertyTypes`, `noUncheckedIndexedAccess` | `true` |
+| `noUnusedLocals`, `noUnusedParameters` | `true` |
+| `isolatedModules`, `verbatimModuleSyntax` | `true` |
+| `declaration`, `declarationMap`, `sourceMap` | `true` |
+
+The reason for each option is in the [js-dev-tools configs][js-dev-tools-configs].
 
 ---
 
@@ -163,9 +170,12 @@ nbproject/
 
 # AI assistants
 # ----------------
-# Local state only, shared instructions (AGENTS.md, CLAUDE.md, GEMINI.md) stay committed
+# Personal instruction files: not published (the KB repositories force them with exceptions)
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+*.local.md
 .claude/settings.local.json
-CLAUDE.local.md
 .aider*
 .cursor/
 .windsurf/
@@ -199,5 +209,7 @@ npm-debug.log*
 **[Back to npm-package][pkg]**
 
 [handbook]: ../../README.md
+[editor-integration]: ../../standards/editor-integration.md
+[js-dev-tools-configs]: ../../packages/js-dev-tools/configs.md#tsconfigbasejson
 [templates]: ../README.md
 [pkg]: ./README.md
