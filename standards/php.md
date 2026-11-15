@@ -10,11 +10,13 @@ Standards PHP purs applicables à **tout projet PHP** dans l'écosystème Zairak
 
 | Tool | Purpose | Config file |
 | :--- | :--- | :--- |
-| **[Pint]** | Code formatter (PSR-12 + Laravel preset) | `config/dev-tools/pint.json` |
-| **[PHPStan]** | Static analysis — level max | `phpstan.neon` + `config/dev-tools/baseline.neon` |
+| **[Pint]** | Code formatter (PSR-12 + Laravel preset) | `config/dev-tools/pint.json`: the complete file, edited by the project. `pint.json` at the root is a copy. |
+| **[PHPStan]** | Static analysis - level max | `config/dev-tools/phpstan.neon` + `config/dev-tools/baseline.neon`. `phpstan.neon` at the root is thin. |
 | **[Rector]** | Automated code modernization | `config/dev-tools/rector.php` |
-| **[PHPInsights]** | Architecture & quality metrics | `config/dev-tools/insights.php` |
-| **[PHPUnit]** | Unit and feature testing | `config/dev-tools/phpunit.xml` |
+| **[PHPInsights]** | Architecture & quality metrics | `config/dev-tools/phpinsights.php` |
+| **[PHPUnit]** | Unit and feature testing | `config/dev-tools/phpunit.xml`. `phpunit.xml` at the root is a copy. |
+
+The configuration of each tool is in `config/dev-tools/`. The root holds only what an editor reads: thin files and copies (see [Editor integration](./editor-integration.md#the-rules-of-the-root-files)). `make config-check` verifies that they agree.
 
 ---
 
@@ -38,6 +40,76 @@ make cs:fix    # Fix — applies all corrections automatically
 
 ---
 
+## Conditions
+
+PHPInsights alerts on a long condition (the sniff counts characters, not parts: about 60 characters is where a third part usually is), and nothing rewrites it. Write it by hand:
+
+- **Three parts or more**: one part per line.
+- **The operator at the start of the line**, as in [PER-CS 3.0][per-cs]. Pint (`operator_linebreak`) keeps it there.
+- **A group in parentheses** goes on its own lines: the opening parenthesis alone, the parts indented, the closing parenthesis alone.
+
+```php
+if (
+    'gitlab-ci' === $target
+    && (
+        $fullstack
+        || file_exists($basePath . '/package.json')
+    )
+) {
+    // ...
+}
+```
+
+Two short parts stay on one line: `if ($installed && $this->isReady()) {`.
+
+### Ternaries
+
+A ternary is always written on several lines, the operators at the start of the line. PHPInsights alerts on a single-line ternary, and `make spread-fix` writes it:
+
+```php
+$action = $dryRun
+    ? 'Would fix'
+    : 'Fixed';
+```
+
+A condition of three parts or more inside it follows the rules above.
+
+### Arrays, calls and parameters
+
+- **An array that is not empty** is always written on several lines: one element per line, a trailing comma, the `=>` aligned (Pint aligns them). Only `[]` stays on one line. An array that holds a spread array is spread too, never `['a' => [` on one line.
+- **A call of more than two arguments**, and **a function, method or closure of more than two parameters**: one per line, a trailing comma.
+- A destructuring (`[$a, $b] = $pair`) stays on one line.
+
+```php
+$context = stream_context_create([
+    'http' => [
+        'method'  => 'POST',
+        'content' => $message,
+        'timeout' => 15,
+    ],
+]);
+
+public function publishGroup(
+    string $group,
+    string $vendorPath,
+    string $basePath,
+): bool {
+```
+
+Nothing alerts on these, because Pint and PHPInsights do not count elements. They are written by `make spread-fix` (part of `make quality-fix`, before Pint): the arrays, the calls and the parameters by the `CodeSpreader` of laravel-dev-tools, the ternaries by `phpcbf`.
+
+### Strict constructs
+
+PHPStan (`phpstan-strict-rules`) and PHPInsights both report these. Each one hides a loose comparison:
+
+| Avoid | Why | Write instead |
+| :--- | :--- | :--- |
+| `empty($x)` | Checks existence and falsy value at once: `"0"`, `0`, `[]` are all "empty", and an undefined variable is silent. | `'' === $x`, `[] === $x`, `0 === count($x)` |
+| `$a ?: $b` | Weak comparison: `"0"` and `0` fall to `$b`. | `$a ?? $b`, or a ternary with a strict condition: `'' === $a ? $b : $a` |
+| `@function()` | Hides every error of the call, including the ones that matter. | Handle the failure: `set_error_handler()` around the call, restored in `finally`, and test the returned value |
+
+---
+
 ## PHPStan — Static Analysis
 
 PHPStan runs at **level max** across all projects. No exceptions.
@@ -49,11 +121,18 @@ make analyse
 ### Configuration
 
 ```neon
-# phpstan.neon
+# config/dev-tools/phpstan.neon
 includes:
-    - vendor/zairakai/laravel-dev-tools/config/library.neon
-    - config/dev-tools/baseline.neon
+  - ../../vendor/zairakai/laravel-dev-tools/config/library.neon
+  - baseline.neon
+
+parameters:
+  paths:
+    - ../../src
+    - ../../tests
 ```
+
+The `phpstan.neon` at the root is thin, for the editor: it includes `config/dev-tools/phpstan.neon`.
 
 ### Baseline Policy
 
@@ -78,7 +157,7 @@ Run Rector before major PHP version upgrades and after adding new rule sets.
 
 PHPInsights measures four dimensions: **Code**, **Complexity**, **Architecture**, **Style**.
 
-The goal is to **maintain scores, not let them degrade**. Scores must not drop below the thresholds defined in `config/dev-tools/insights.php`. Aiming for 100% is encouraged, but some rules can legitimately be excluded when they conflict with project constraints — document exclusions in the config file.
+The goal is to **maintain scores, not let them degrade**. Scores must not drop below the thresholds defined in `config/dev-tools/phpinsights.php`. Aiming for 100% is encouraged, but some rules can legitimately be excluded when they conflict with project constraints — document exclusions in the config file.
 
 ```bash
 make insights
@@ -193,3 +272,4 @@ make insights     # Architecture metrics (PHPInsights)
 [standards]: ./README.md
 [PHPInsights]: https://phpinsights.com/
 [PHPUnit]: https://phpunit.de/
+[per-cs]: https://www.php-fig.org/per/coding-style/

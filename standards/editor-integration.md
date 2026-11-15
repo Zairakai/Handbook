@@ -39,8 +39,12 @@ These files are committed in the repository. Editors and extensions that find th
 | `.gitattributes` | Git | Line endings, Markdown diffs, binary files. |
 | `eslint.config.mjs`, `prettier.config.mjs`, `stylelint.config.mjs` | ESLint, Prettier and Stylelint extensions | Thin files: they re-export `config/dev-tools/<tool>.config.js`. |
 | `vitest.config.mjs` | Vitest extension | Thin file, same role. Not created when the project has a `vite.config.*`, which Vitest reads. |
-| `.markdownlint.json` | markdownlint extension | Extends `config/dev-tools/.markdownlint.json`. |
+| `phpstan.neon` | PHPStan extensions | Thin file: it includes `config/dev-tools/phpstan.neon`. |
+| `.markdownlint.json` | markdownlint extension | Thin file: it extends `config/dev-tools/.markdownlint.json`. |
+| `pint.json`, `phpunit.xml` | Pint and PHPUnit extensions | Copies of the files of `config/dev-tools/` (see below). |
 | `.prettierignore`, `.stylelintignore`, `.markdownlintignore` | The same extensions | Copies of the files of `config/dev-tools/`. |
+
+`rector.php`, `phpinsights.php`, `knip.config.js` and `tsup.config.js` have no file at the root: no extension of an editor reads them, the commands do (see the rules below).
 
 **Why root files.** The shared configuration is published in `config/dev-tools/` and the `make` targets read it from there. Editor extensions only look for the standard file names at the root of the repository, in the folder of the file you edit and its parents. They never look into `config/dev-tools/`. A thin file holds no rule of its own: it re-exports or extends the published one.
 
@@ -56,6 +60,15 @@ export { default } from './config/dev-tools/eslint.config.js'
 ```
 
 An ignore file cannot extend another file, and npm does not publish symbolic links: the root gets a copy. The `js-dev-tools` package creates these files on install (`npm run setup`, or the `postinstall`) when the project has no config of that tool yet, and refresh them with `--force`. A project that edits a file of `config/dev-tools/` keeps the thin file as it is: it follows.
+
+### The rules of the root files
+
+1. **The configuration of a project is the file of `config/dev-tools/`**, one per tool, committed. It extends the one of the `dev-tools` package of the group, which extends the base rules. Everything that is specific to the project is written there, and nowhere else. The commands (`make`, `composer`, `npm`) read these files.
+2. **A file exists at the root only when an editor or an extension reads it.** They look for the standard names at the root and never in `config/`. A tool that no extension reads has no file at the root.
+3. **A root file that can point at another file is thin, and points at the one of `config/dev-tools/`, and at nothing else**: a re-export, an `extends` or an `includes`. It never points at `vendor/` or `node_modules/`.
+4. **A file that cannot point at another one is a copy: it exists at the root, for the editor, and in `config/dev-tools/`, which the commands read.** `pint.json` (Pint cannot extend a file), `phpunit.xml` (same) and the ignore files are in this case. The two must say the same, and a check makes sure of it.
+
+**Copies in PHP projects.** `make config-check` compares each copy with its file of `config/dev-tools/` and tells a thin file that does not point at `config/dev-tools/`; it is part of `make quality`, and `SYNC=true make config-check` writes the copies again. PHPUnit reads the paths of its file from the folder of that file, so the `phpunit.xml` of `config/dev-tools/` goes up two folders (`../../src`) and the copy of the root does not (`src`): they are equivalent when only that prefix differs. A forced publication (`--force`) keeps a copy of every file that it writes over in `.dev-tools-backup/<UTC date and time>/`.
 
 ---
 

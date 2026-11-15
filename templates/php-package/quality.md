@@ -13,14 +13,14 @@ All tooling is delegated to `zairakai/laravel-dev-tools`. It runs automatically 
 "post-update-cmd":  ["@setup-dev-tools"]
 ```
 
-`@setup-dev-tools` calls `setup-package.sh --silent`, which creates the Makefile stub and ensures configs are in place. Hash-protected — user modifications in `config/dev-tools/` are never overwritten on update.
+`@setup-dev-tools` calls `setup-package.sh --silent`, which creates the Makefile stub and ensures configs are in place. Hash-protected: user modifications in `config/dev-tools/` are never overwritten on update, and a forced publication keeps a copy of what it writes over in `.dev-tools-backup/`.
 
 ---
 
 ## Make targets
 
 ```bash
-make quality        # markdownlint + shellcheck + rector + pint + phpstan + insights
+make quality        # markdownlint + shellcheck + rector + pint + phpstan + insights + config-check
 make quality-fast   # pint + phpstan + markdownlint (fast CI check)
 make quality-fix    # markdownlint-fix + rector-fix + pint-fix
 make test           # PHPUnit (Unit + Feature)
@@ -31,6 +31,7 @@ make bats           # BATS shell tests
 make ci             # quality + test + bats
 make phpstan        # PHPStan only
 make phpstan-baseline  # generate / update config/dev-tools/baseline.neon
+make config-check   # the root (thin files, copies) agrees with config/dev-tools
 make pint           # Pint check
 make pint-fix       # Pint auto-fix
 make rector         # Rector dry-run
@@ -45,12 +46,13 @@ See [laravel-dev-tools make targets][php-make] for the full reference.
 
 ## PHPStan
 
-`phpstan.neon` at project root:
+`config/dev-tools/phpstan.neon` is the configuration of the project; the `phpstan.neon` at the root is thin, for the editor, and includes it:
 
 ```neon
+# config/dev-tools/phpstan.neon
 includes:
-    - vendor/zairakai/laravel-dev-tools/config/library.neon
-    - config/dev-tools/baseline.neon
+  - ../../vendor/zairakai/laravel-dev-tools/config/library.neon
+  - baseline.neon
 ```
 
 Inherits from `library.neon`: level max, `src/` path, 4 parallel processes.
@@ -61,7 +63,7 @@ Inherits from `library.neon`: level max, `src/` path, 4 parallel processes.
 
 ```neon
 parameters:
-    ignoreErrors: []
+  ignoreErrors: []
 ```
 
 To generate after initial setup (e.g. when integrating an existing codebase):
