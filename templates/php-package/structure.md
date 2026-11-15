@@ -18,14 +18,24 @@ php-package/
 ├── README.md                ← badges + requirements + install + usage
 ├── SECURITY.md              ← references global handbook
 ├── composer.json
-├── phpstan.neon             ← extends laravel-dev-tools/config/library.neon
-├── phpunit.xml              ← Unit + Feature suites, coverage reports
+├── .markdownlint.json       ← thin: extends config/dev-tools/.markdownlint.json
+├── .markdownlintignore      ← copy of config/dev-tools/.markdownlintignore
+├── phpstan.neon             ← thin: includes config/dev-tools/phpstan.neon
+├── phpunit.xml              ← copy of config/dev-tools/phpunit.xml (paths of the root)
+├── pint.json                ← copy of config/dev-tools/pint.json
 ├── build/
 │   └── logs/
 │       └── .gitkeep         ← clover.xml, cobertura.xml, junit.xml written here
 ├── config/
-│   └── dev-tools/
-│       └── baseline.neon    ← empty PHPStan baseline (fill via make phpstan-baseline)
+│   └── dev-tools/           ← the configuration of the project, one file per tool
+│       ├── .markdownlint.json
+│       ├── .markdownlintignore
+│       ├── baseline.neon    ← empty PHPStan baseline (fill via make phpstan-baseline)
+│       ├── phpinsights.php
+│       ├── phpstan.neon     ← extends laravel-dev-tools/config/library.neon
+│       ├── phpunit.xml      ← Unit + Feature suites, coverage reports
+│       ├── pint.json        ← the complete file, edited by the project
+│       └── rector.php
 ├── src/
 │   └── ServiceProvider.php  ← package entry point, auto-discovered by Laravel
 └── tests/
@@ -162,7 +172,7 @@ GEMINI.md
 *.log
 ```
 
-`config/dev-tools/` is **not** ignored — published configs are committed and versioned alongside the package.
+`config/dev-tools/` is **not** ignored - published configs are committed and versioned alongside the package. `.dev-tools-backup/`, where a forced publication keeps the files that it writes over, is ignored.
 
 ---
 
