@@ -36,7 +36,7 @@ composer audit
 make security-audit
 ```
 
-> The CI pipeline runs `make security-audit` on every pipeline: an advisory that is high or critical blocks the merge and the publication of a tag. The others are listed and do not block, and an unknown severity counts as a medium one. It is the level at which the daily audit fixes an advisory at once, and the rule is in one place, `audit-check` of the update tool.
+> The CI pipeline runs `make security-audit` on every pipeline, for information: the job shows an advisory that is high or critical and does not block the merge or the publication of a tag, the daily audit takes care of it. The others are listed, and an unknown severity counts as a medium one. It is the level at which the daily audit fixes an advisory at once, and the rule is in one place, `audit-check` of the update tool.
 
 ---
 
@@ -78,7 +78,7 @@ yarn audit
 make security-audit
 ```
 
-> The CI pipeline runs `make security-audit` on every pipeline, with the same level as for Composer: an advisory that is high or critical blocks the merge and the publication of a tag.
+> The CI pipeline runs `make security-audit` on every pipeline, with the same level as for Composer and for information: the job shows an advisory that is high or critical and does not block the merge or the publication of a tag.
 
 ---
 
