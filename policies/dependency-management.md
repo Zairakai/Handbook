@@ -36,7 +36,7 @@ composer audit
 make security-audit
 ```
 
-> The CI pipeline runs `composer audit` automatically — any known vulnerability blocks the merge.
+> The CI pipeline runs `make security-audit` on every pipeline: an advisory that is high or critical blocks the merge and the publication of a tag. The others are listed and do not block, and an unknown severity counts as a medium one. It is the level at which the daily audit fixes an advisory at once, and the rule is in one place, `audit-check` of the update tool.
 
 ---
 
@@ -74,7 +74,11 @@ yarn upgrade
 npm audit
 # or:
 yarn audit
+# or via Make, with the level of the pipeline (the same as for Composer):
+make security-audit
 ```
+
+> The CI pipeline runs `make security-audit` on every pipeline, with the same level as for Composer: an advisory that is high or critical blocks the merge and the publication of a tag.
 
 ---
 
